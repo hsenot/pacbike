@@ -1,0 +1,52 @@
+id,name,terminalName,lastCommWithServer,lat,long,installed,locked,installDate,removalDate,temporary,public,nbBikes,nbEmptyDocks,latestUpdateTime
+2,"Docklands Drive - Docklands",60000,1387410738162,-37.814022,144.939521,true,false,1313724600000,Array,false,true,12,11,1387410737091
+4,"Federation Square",60001,1387410991253,-37.817523,144.967814,true,false,Array,Array,false,true,14,13,1387406793186
+5,"Plum Garland Res, Beaconsfield Pde",60002,1387410836406,-37.84782,144.948196,true,false,1387326600000,Array,false,true,11,4,1387368476551
+6,"Swanston St / Little Lonsdale St",60003,1387410971991,-37.810702,144.964417,true,false,Array,Array,false,true,7,4,1387408436552
+7,"205 Bourke St  near Russell St",60004,1387410579090,-37.813088,144.967437,true,false,Array,Array,false,true,4,7,1387407537575
+8,"Melbourne Uni - Tin Alley",60005,1387410875361,-37.79625,144.960858,true,false,Array,Array,false,true,15,8,1387408816241
+9,"RMIT - Swanston St / Franklin St",60006,1387410270909,-37.807699,144.963095,true,false,1356555600000,Array,false,true,8,3,1387409425217
+10,"Swanston St (East) / Flinders St (St Pauls)",60007,1387410406097,-37.817189,144.967409,true,false,Array,Array,false,true,6,5,1387401028260
+11,"MSAC (Melbourne Sports Aquatic Centre)",60008,1387410661027,-37.842395,144.961868,true,false,Array,Array,false,true,19,8,1387403503642
+12,"Elizabeth St / Bourke St (GPO)",60009,1387410879462,-37.813848,144.963106,true,false,Array,Array,false,true,6,1,1387406289701
+14,"Victoria Parade / Morrison Pl (Eye and Ear Hospital)",60010,1387411029507,-37.808595,144.976745,true,false,1277175180000,Array,false,true,8,11,1387405242314
+15,"Coventry Street / St Kilda Rd",60017,1387410808372,-37.828887,144.970822,true,false,1277175420000,Array,false,true,8,3,1387407701336
+16,"Docklands @ NAB - Harbour Esplanade / Bourke St",60011,1387410965491,-37.818306,144.945923,true,false,1277175720000,Array,false,true,21,12,1387410964536
+17,"Yarra's Point",60024,1387410842747,-37.823805,144.943051,true,false,1277175840000,Array,false,true,18,13,1387405475993
+18,"Lygon St / Argyle Square",60021,1387410574105,-37.802129,144.96677,true,false,1277176440000,Array,false,true,3,8,1387408040046
+19,"Faraday St / Dorrit St",60012,1387410524940,-37.798616,144.966327,true,false,1277177460000,Array,false,true,2,9,1387410523513
+20,"Parliament Station - Nicholson St / Albert St",60025,1387410234099,-37.809072,144.972762,true,false,1277186940000,Array,false,true,4,10,1387408130351
+21,"Bridport st/Montague st  Albert Park",60014,1387410483451,-37.840885,144.955303,true,false,1317270960000,Array,false,true,9,14,1387407253259
+22,"Pickles st / Ingles st",60027,1387410224728,-37.835803,144.94852,true,false,1316669400000,Array,false,true,13,9,1387406785943
+23,"Docklands - Yarra's Edge (near Lorimer St)",60015,1387410993114,-37.824468,144.946033,true,false,1277275200000,Array,false,true,5,6,1387403896145
+24,"North Melbourne Station - North Melbourne",60038,1387410924081,-37.807021,144.941854,true,false,1313712000000,Array,false,true,8,15,1387409233750
+25,"Sandridge Bridge  Southbank",60026,1387410554433,-37.820836,144.962266,true,false,1277275500000,Array,false,true,18,9,1387410553254
+26,"Beach St  Port Melbourne",60029,1387410736738,-37.841954,144.935296,true,false,1317348540000,Array,false,true,24,15,1387405976438
+27,"Docklands - New Quay / Harbour Esplanade",60028,1387410347420,-37.814117,144.944081,true,false,1277277780000,Array,false,true,18,9,1387410346704
+28,"Queensbridge  Southbank",60035,1387411063588,-37.821071,144.961113,true,false,1277364000000,Array,false,true,11,4,1387402373417
+29,"Southern Cross Station",60034,1387411003105,-37.818124,144.953581,true,false,1277364120000,Array,false,true,14,13,1387411002094
+30,"Collins St / Market St (Suncorp Forecourt)",60023,1387410459455,-37.817556,144.959859,true,false,1277364240000,Array,false,true,4,7,1387402156896
+31,"St Kilda - Cleve Gardens",60032,1387410951948,-37.861984,144.97341,true,false,1387333800000,Array,false,true,6,9,1387402660601
+32,"Bourke Street / Exhibition St (opp. Department of Transport)",60030,1387410253613,-37.812052,144.970272,true,false,1277364480000,Array,false,true,8,7,1387405218501
+33,"Docklands - Siddeley St / Seafarers Bridge",60031,1387410713634,-37.823124,144.951918,true,false,1277366340000,Array,false,true,20,3,1387405700823
+34,"Bourke Street / New Chancery Ln (RACV)",60013,1387410999707,-37.815505,144.959278,true,false,1277449260000,Array,false,true,11,0,1387404757066
+35,"Elizabeth St / Little Lonsdale St (360 Elizabeth)",60033,1387410940230,-37.811187,144.961858,true,false,1277449680000,Array,false,true,3,4,1387406698996
+36,"Collins St / King St ",60022,1387410968753,-37.818294,144.956553,true,false,1314738000000,Array,false,true,5,6,1387373234245
+37,"University Square - Grattan St",60045,1387410847346,-37.800214,144.960313,true,false,1279193820000,Array,false,true,9,6,1387404165230
+38,"Aquarium - Kings Way / Yarra River",60046,1387410464873,-37.821324,144.958318,true,false,1279194060000,Array,false,true,8,3,1387406209620
+39,"Richmond Station - Brunton Avenue",60020,1387410728912,-37.822962,144.988507,true,false,1279850040000,Array,false,true,7,12,1387408446227
+40,"Rod Laver Arena - Batman Ave / Swan St",60047,1387410763464,-37.822987,144.978459,true,false,1279850640000,Array,false,true,13,10,1387373233921
+41,"Park St / St Kilda Rd",60016,1387410875085,-37.832396,144.971678,true,false,Array,Array,false,true,10,5,1387407701335
+42,"Kingsway / St Kilda Rd",60018,1387410385673,-37.836323,144.975162,true,false,1315359000000,Array,false,true,22,5,1387409539330
+43,"Spring St / Collins St",60019,1387410951161,-37.813774,144.974054,true,false,1279850400000,Array,false,true,5,5,1387409260488
+44,"Queens Rd / Bowen Cres",60036,1387410684864,-37.835383,144.973699,true,false,Array,Array,false,true,9,6,1387407371078
+45,"120 Collins St - near Russell St",60037,1387398569731,-37.814139,144.96941,true,false,1282704420000,Array,false,true,0,11,1387398476596
+46,"York St / Cecil St",60039,1387410245864,-37.831475,144.957511,true,false,1286867100000,Array,false,true,14,1,1387410244387
+47,"VCAM - St Kilda Rd / Southbank Blvd",60040,1387410986712,-37.824088,144.970085,true,false,1280967360000,Array,false,true,9,2,1387382685352
+48,"Museum - Rathdowne St",60041,1387410902306,-37.803868,144.969609,true,false,Array,Array,false,true,5,10,1387409211966
+49,"Jolimont Station - Wellington Parade South",60042,1387410275768,-37.816731,144.982006,true,false,1282704240000,Array,false,true,3,8,1387404611555
+50,"ACCA (Australian Centre of Contemporary Art)",60043,1387411047887,-37.826578,144.966542,true,false,1317170580000,Array,false,true,23,0,1387407219897
+51,"Docklands - Collins St (ANZ) ",60044,1387410976153,-37.821568,144.944488,true,false,1282909260000,Array,false,true,4,15,1387410973654
+52,"William St / Peel St (Flagstaff Gardens)",60048,1387410667200,-37.809216,144.955223,true,false,1279850880000,Array,false,true,5,6,1387406638794
+53,"Victoria Market - Elizabeth St / Victoria St (NW)",60049,1387410341717,-37.806091,144.959017,true,false,Array,Array,false,true,16,9,1387402682911
+55,"Coventry St / Clarendon St",60050,1387410576892,-37.831776,144.960818,true,false,1286866860000,Array,false,true,11,0,1387372073581
