@@ -1,0 +1,233 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>PacBike</title>
+        <script language="JavaScript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+        <script language="JavaScript" type="text/javascript" src="jquery.gamequery-0.7.1.js"></script>
+        <script>
+            $(function(){
+                var tileW = 50;
+                var tileH = 50;
+                var movingLock = false;
+
+                var REFRESH_RATE = 15;
+                var playerHit = false;
+                var playerW = 30;
+                var playerH = 30;
+                var SPEEDX = tileW;
+                var SPEEDY = tileH;
+                // Duration (in ms) to get to the next tile
+                var STEP_SPEEDX = 200;
+                var STEP_SPEEDY = 200;
+
+                // Generated with gQ's Tiles map editor
+                // http://gamequeryjs.com/tools/tilemapeditor/
+
+                var animations = [];
+                animations[0] =  new $.gameQuery.Animation({
+                    imageURL:      'http://placehold.it/'+tileW+'/0000FF&text=.',
+                    type:          $.gameQuery.ANIMATION_VERTICAL,
+                    numberOfFrame: 1,
+                    delta:         0,
+                    rate:          15,
+                    offsetx:       0,
+                    offsety:       0
+                });
+                animations[1] =  new $.gameQuery.Animation({
+                    imageURL:      'http://placehold.it/'+tileW+'/000000&text=.',
+                    type:          $.gameQuery.ANIMATION_VERTICAL,
+                    numberOfFrame: 1,
+                    delta:         0,
+                    rate:          15,
+                    offsetx:       0,
+                    offsety:       0
+                });
+
+                 // the tilemap array
+                var map = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                           [1, 2, 2, 1, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1],
+                           [1, 2, 2, 1, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1],
+                           [1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 2, 2, 2, 1],
+                           [1, 2, 2, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                           [1, 2, 2, 1, 2, 2, 1, 2, 2, 1, 2, 1, 2, 2, 1],
+                           [1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 2, 1, 2, 2, 1],
+                           [1, 2, 2, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                           [1, 2, 2, 1, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1],
+                           [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]];
+
+                // Calculating board size based on the tilemap
+                var tileNbX = map[0].length;
+                var tileNbY = map.length;
+                var PLAYGROUND_WIDTH    = tileNbX * tileW;
+                var PLAYGROUND_HEIGHT   = tileNbY * tileH;
+
+                // My own wall collision detection function
+                var collisionDetect = function(x,y,animationCode){
+                    var cellx = Math.round(((x+PLAYGROUND_WIDTH/2)*tileNbX)/PLAYGROUND_WIDTH)-1;
+                    var celly = Math.round(((y+PLAYGROUND_HEIGHT/2)*tileNbY)/PLAYGROUND_HEIGHT);
+                    // Mapping x and y to a map tile
+                    console.log("Collision detection with ("+cellx+","+celly+"):"+(map[celly][cellx] == animationCode));
+                    return map[celly][cellx] == animationCode;
+                };
+
+                // Configuring the playground
+                $('#playground').playground({
+                        height: PLAYGROUND_HEIGHT, 
+                        width: PLAYGROUND_WIDTH, 
+                        keyTracker: true
+                    })
+                    .addTilemap("tilemap", map,  animations, {
+                        width: tileW, 
+                        height: tileH, 
+                        sizex: tileNbX, 
+                        sizey: tileNbY
+                    }).end()
+                    .addGroup("bikestations", {
+                        width: PLAYGROUND_WIDTH, 
+                        height: PLAYGROUND_HEIGHT
+                    }).end()
+                    .addGroup("pacgums", {
+                        width: PLAYGROUND_WIDTH, 
+                        height: PLAYGROUND_HEIGHT
+                    }).end()
+                    .addGroup("actors",{
+                        width: PLAYGROUND_WIDTH, 
+                        height: PLAYGROUND_HEIGHT
+                    })
+                        .addGroup("player",{
+                            width: playerW, 
+                            height: playerH
+                        }).end()
+                    .end();
+
+                
+                // configure the loading bar
+                $.loadCallback(function(percent){
+                    $("#loadBar").width(400*percent);
+                    $("#loadtext").html(""+percent+"%")
+                });
+                
+                // register the start button and remove the splash screen once the game is ready to starts
+                $("#start").click(function(){
+                    $.playground().startGame(function(){
+                        $("#splash").remove();
+
+                        // Let the game begin!
+                        var pacman = new $.gameQuery.Animation({imageURL: "images/pacman-small.png"});
+
+                        $("#player").addSprite("pacman", {
+                            animation: pacman,
+                            posx: PLAYGROUND_WIDTH/2-(PLAYGROUND_WIDTH/2%tileW)+tileW/2-playerW/2, 
+                            posy: PLAYGROUND_HEIGHT/2-(PLAYGROUND_HEIGHT/2%tileH)+tileH/2-playerH/2,
+                            width: playerW, 
+                            height: playerH
+                        });
+
+                    });
+
+                    function Player(node){
+                        this.node = node;
+                        this.respawnTime = -1;
+                        this.grace = false;
+                            
+                        // this respawns the player after a death
+                        this.respawn = function(){
+                            this.grace  = true;
+
+                            this.respawnTime = (new Date()).getTime();
+                            $(this.node).fadeTo(0, 0.5); 
+                            return false;
+                        };
+
+                        this.update = function(){
+                            if((this.respawnTime > 0) && (((new Date()).getTime()-this.respawnTime) > 3000)){
+                                this.grace = false;
+                                $(this.node).fadeTo(0, 1); 
+                                this.respawnTime = -1;
+                            }
+                        };
+                        return true;
+                    }
+
+                    $("#player")[0].player = new Player($("#player"));
+
+                    $.playground().registerCallback(function(){
+
+                        var posx = parseInt($("#player").css("left"));
+                        var posy = parseInt($("#player").css("top"));
+
+                        //Update the movement of the player:
+                        if(!movingLock){
+                          $("#player")[0].player.update();
+                          if(jQuery.gameQuery.keyTracker[65]){ //this is left! (a)
+                            var nextpos = posx-SPEEDX;
+                            if(nextpos > -PLAYGROUND_WIDTH/2 + playerW/2){
+                                if (!collisionDetect(nextpos,posy,2))
+                                {
+                                    movingLock = true;
+                                    $("#player").animate({left: nextpos+"px"},STEP_SPEEDX,"linear",function(){
+                                        console.log("Moved 1 left");
+                                        movingLock = false;
+                                    });                                    
+                                }
+                            }
+                          }
+                          if(jQuery.gameQuery.keyTracker[68]){ //this is right! (d)
+                            var nextpos = posx+SPEEDX;
+                            if(nextpos < PLAYGROUND_WIDTH/2 - playerW/2){
+                                if (!collisionDetect(nextpos,posy,2))
+                                {
+                                    movingLock = true;
+                                    $("#player").animate({left: nextpos+"px"},STEP_SPEEDX,"linear",function(){
+                                        console.log("Moved 1 right");
+                                        movingLock = false;
+                                    });
+                                }
+                            }
+                          }
+                          if(jQuery.gameQuery.keyTracker[87]){ //this is up! (w)
+                            var nextpos = posy-SPEEDY;
+                            if(nextpos >= -PLAYGROUND_HEIGHT/2){
+                                if (!collisionDetect(posx,nextpos,2))
+                                {
+                                    movingLock = true;
+                                    $("#player").animate({top: nextpos+"px"},STEP_SPEEDY,"linear",function(){
+                                        console.log("Moved 1 up");
+                                        movingLock = false;
+                                    });
+                                }
+                            }
+                          }
+                          if(jQuery.gameQuery.keyTracker[83]){ //this is down! (s)
+                            var nextpos = posy+SPEEDY;
+                            if(nextpos < PLAYGROUND_HEIGHT/2 - playerH/2){
+                                if (!collisionDetect(posx,nextpos,2))
+                                {
+                                    movingLock = true;
+                                    $("#player").animate({top: nextpos+"px"},STEP_SPEEDY,"linear",function(){
+                                        console.log("Moved 1 down");
+                                        movingLock = false;
+                                    });
+                                }
+                            }
+                          }
+                        } else {
+                            $("#player").css("top", ""+ posy +"px");
+                            $("#player").css("left", ""+ posx +"px");
+                          }
+                        }, REFRESH_RATE);
+
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="playground">
+            <div id ="splash">
+                <a id="start">Start</a>
+                <div id="loadbar" style="background: 000; height: 32px; overflow: visible;"><span id="loadtext" style="color: red"></span></div>
+            </div>
+        </div>
+    </body>
+</html>
