@@ -11,15 +11,15 @@
                 var tileH = 30;
                 var movingLock = false;
 
-                var REFRESH_RATE = 15;
+                var REFRESH_RATE = 30;
                 var playerHit = false;
                 var playerW = 30;
                 var playerH = 30;
                 var SPEEDX = tileW;
                 var SPEEDY = tileH;
                 // Duration (in ms) to get to the next tile
-                var STEP_SPEEDX = 100;
-                var STEP_SPEEDY = 100;
+                var STEP_SPEEDX = 300;
+                var STEP_SPEEDY = 300;
 
                 // Generated with gQ's Tiles map editor
                 // http://gamequeryjs.com/tools/tilemapeditor/
@@ -181,15 +181,15 @@
 
                         //Update the movement of the player:
                         if(!movingLock){
-                          $("#player")[0].player.update();
+                          //$("#player")[0].player.update();
                           if(jQuery.gameQuery.keyTracker[65]){ //this is left! (a)
                             var nextpos = posx-SPEEDX;
                             if(nextpos >= -PLAYGROUND_WIDTH/2 + playerW/2){
                                 if (!collisionDetect(nextpos,posy,2))
                                 {
                                     movingLock = true;
-                                    $("#player").animate({left: nextpos+"px"},STEP_SPEEDX,"linear",function(){
-                                        console.log("Moved 1 left");
+                                    $("#player").animate({left: nextpos+"px"},STEP_SPEEDX,function(){
+                                        //console.log("Moved 1 left");
                                         movingLock = false;
                                     });                                    
                                 }
@@ -201,8 +201,8 @@
                                 if (!collisionDetect(nextpos,posy,2))
                                 {
                                     movingLock = true;
-                                    $("#player").animate({left: nextpos+"px"},STEP_SPEEDX,"linear",function(){
-                                        console.log("Moved 1 right");
+                                    $("#player").animate({left: nextpos+"px"},STEP_SPEEDX,function(){
+                                        //console.log("Moved 1 right");
                                         movingLock = false;
                                     });
                                 }
@@ -214,8 +214,8 @@
                                 if (!collisionDetect(posx,nextpos,2))
                                 {
                                     movingLock = true;
-                                    $("#player").animate({top: nextpos+"px"},STEP_SPEEDY,"linear",function(){
-                                        console.log("Moved 1 up");
+                                    $("#player").animate({top: nextpos+"px"},STEP_SPEEDY,function(){
+                                        //console.log("Moved 1 up");
                                         movingLock = false;
                                     });
                                 }
@@ -227,8 +227,8 @@
                                 if (!collisionDetect(posx,nextpos,2))
                                 {
                                     movingLock = true;
-                                    $("#player").animate({top: nextpos+"px"},STEP_SPEEDY,"linear",function(){
-                                        console.log("Moved 1 down");
+                                    $("#player").animate({top: nextpos+"px"},STEP_SPEEDY,function(){
+                                        //console.log("Moved 1 down");
                                         movingLock = false;
                                     });
                                 }
