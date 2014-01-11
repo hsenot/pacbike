@@ -26,7 +26,7 @@
 
                 var animations = [];
                 animations[0] =  new $.gameQuery.Animation({
-                    imageURL:      'http://placehold.it/'+tileW+'/0000FF&text=.',
+                    imageURL:      'http://placehold.it/'+tileW+'/000000&text=.',
                     type:          $.gameQuery.ANIMATION_VERTICAL,
                     numberOfFrame: 1,
                     delta:         0,
@@ -35,7 +35,7 @@
                     offsety:       0
                 });
                 animations[1] =  new $.gameQuery.Animation({
-                    imageURL:      'http://placehold.it/'+tileW+'/000000&text=.',
+                    imageURL:      'http://placehold.it/'+tileW+'/0000FF&text=.',
                     type:          $.gameQuery.ANIMATION_VERTICAL,
                     numberOfFrame: 1,
                     delta:         0,
@@ -86,7 +86,7 @@
 
                 // My own wall collision detection function
                 var collisionDetect = function(x,y,animationCode){
-                    var cellx = Math.round(((x+PLAYGROUND_WIDTH/2)*tileNbX)/PLAYGROUND_WIDTH)-1;
+                    var cellx = Math.round(((x+PLAYGROUND_WIDTH/2)*tileNbX)/PLAYGROUND_WIDTH);
                     var celly = Math.round(((y+PLAYGROUND_HEIGHT/2)*tileNbY)/PLAYGROUND_HEIGHT);
                     // Mapping x and y to a map tile
                     console.log("Collision detection with ("+cellx+","+celly+"):"+(map[celly][cellx] == animationCode));
