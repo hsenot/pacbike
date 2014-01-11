@@ -18,8 +18,8 @@
                 var SPEEDX = tileW;
                 var SPEEDY = tileH;
                 // Duration (in ms) to get to the next tile
-                var STEP_SPEEDX = 200;
-                var STEP_SPEEDY = 200;
+                var STEP_SPEEDX = 100;
+                var STEP_SPEEDY = 100;
 
                 // Generated with gQ's Tiles map editor
                 // http://gamequeryjs.com/tools/tilemapeditor/
@@ -184,7 +184,7 @@
                           $("#player")[0].player.update();
                           if(jQuery.gameQuery.keyTracker[65]){ //this is left! (a)
                             var nextpos = posx-SPEEDX;
-                            if(nextpos > -PLAYGROUND_WIDTH/2 + playerW/2){
+                            if(nextpos >= -PLAYGROUND_WIDTH/2 + playerW/2){
                                 if (!collisionDetect(nextpos,posy,2))
                                 {
                                     movingLock = true;
@@ -197,7 +197,7 @@
                           }
                           if(jQuery.gameQuery.keyTracker[68]){ //this is right! (d)
                             var nextpos = posx+SPEEDX;
-                            if(nextpos < PLAYGROUND_WIDTH/2 - playerW/2){
+                            if(nextpos <= PLAYGROUND_WIDTH/2 - playerW/2){
                                 if (!collisionDetect(nextpos,posy,2))
                                 {
                                     movingLock = true;
