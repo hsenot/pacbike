@@ -169,6 +169,25 @@
                         height: playerH
                     });
 
+                    // Positionning the pacgums
+                    var pacgum = new $.gameQuery.Animation({imageURL: "images/apple-small.png"});
+                    for (var j=0; j < tileNbY ; j+=1)
+                    {
+                        for (var i=0; i < tileNbX ; i+=1)
+                        {
+                            if (map[j][i] == 3 && ((i+j)%3==0))
+                            {
+                                $("#pacgums").addSprite("pacgum", {
+                                    animation: pacgum,
+                                    posx: (i+1/2)*tileW-20/2, 
+                                    posy: (j+1/2)*tileH-20/2,
+                                    width: 20,
+                                    height: 20
+                                });
+                            }
+                        }
+                    }
+
                 });
 
                 function Player(node){
