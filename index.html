@@ -7,6 +7,12 @@
         </style>
     </head>
     <body>
+        <div id="other stuff">
+            Score:
+            <div id="currentScore" style="display:inline-block;">
+            </div>
+        </div>
+
         <div id="playground">
             <div id ="splash">
                 <a id="start">Start</a>
@@ -177,7 +183,7 @@
                         {
                             if (map[j][i] == 3 && ((i+j)%3==0))
                             {
-                                $("#pacgums").addSprite("pacgum", {
+                                $("#pacgums").addSprite("pacgum-"+i+"_"+j, {
                                     animation: pacgum,
                                     posx: (i+1/2)*tileW-20/2, 
                                     posy: (j+1/2)*tileH-20/2,
@@ -194,7 +200,13 @@
                     this.node = node;
                     this.respawnTime = -1;
                     this.grace = false;
-                        
+                    this.score = 0;
+
+                    this.addPoints=function(pts){
+                        this.score += pts;
+                        $('#currentScore').html(this.score);
+                    };
+
                     return true;
                 }
 
@@ -206,8 +218,15 @@
                     var posx = player.x();
                     var posy = player.y();
 
+                    $('#pacman').collision("#pacgums,#pacgums div").each(function(idx,pacgum){
+                        //console.log("Collided with pacgum"+pacgum.id);
+                        $('#'+pacgum.id).animate({opacity:0},100);
+                        $('#'+pacgum.id).remove();
+                        // Updating the score as well
+                        player[0].player.addPoints(10);
+                    });
+
                     //Update the movement of the player
-                    // Should that be done using a queue? so that PacMan is more "gliding"?
                     if(!movingLock){
                       //$("#player")[0].player.update();
                       if(jQuery.gameQuery.keyTracker[65]){ //this is left! (a)
