@@ -177,19 +177,33 @@
 
                     // Positionning the pacgums
                     var pacgum = new $.gameQuery.Animation({imageURL: "images/apple-small.png"});
+                    var coffee = new $.gameQuery.Animation({imageURL: "images/coffeecup-small.png"});
+
                     for (var j=0; j < tileNbY ; j+=1)
                     {
                         for (var i=0; i < tileNbX ; i+=1)
                         {
                             if (map[j][i] == 3 && ((i+j)%3==0))
                             {
-                                $("#pacgums").addSprite("pacgum-"+i+"_"+j, {
-                                    animation: pacgum,
-                                    posx: (i+1/2)*tileW-20/2, 
-                                    posy: (j+1/2)*tileH-20/2,
-                                    width: 20,
-                                    height: 20
-                                });
+                                if (Math.random()>0.8){
+                                    $("#pacgums").addSprite("coffee-"+i+"_"+j, {
+                                        animation: coffee,
+                                        posx: (i+1/2)*tileW-25/2, 
+                                        posy: (j+1/2)*tileH-24/2,
+                                        width: 25,
+                                        height: 24
+                                    });
+                                }
+                                else
+                                {
+                                    $("#pacgums").addSprite("pacgum-"+i+"_"+j, {
+                                        animation: pacgum,
+                                        posx: (i+1/2)*tileW-20/2, 
+                                        posy: (j+1/2)*tileH-20/2,
+                                        width: 20,
+                                        height: 20
+                                    });
+                                }
                             }
                         }
                     }
@@ -222,8 +236,14 @@
                         //console.log("Collided with pacgum"+pacgum.id);
                         $('#'+pacgum.id).animate({opacity:0},100);
                         $('#'+pacgum.id).remove();
+
+                        var ptsToAdd = 10;
+                        if (pacgum.id.substr(0,6)=="coffee")
+                        {
+                            ptsToAdd = 50;
+                        }
                         // Updating the score as well
-                        player[0].player.addPoints(10);
+                        player[0].player.addPoints(ptsToAdd);
                     });
 
                     //Update the movement of the player
