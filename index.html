@@ -86,7 +86,7 @@
 
                 // My own wall collision detection function
                 var collisionDetect = function(x,y,animationCode){
-                    var cellx = Math.round(((x+PLAYGROUND_WIDTH/2)*tileNbX)/PLAYGROUND_WIDTH);
+                    var cellx = Math.round(((x+PLAYGROUND_WIDTH/2)*tileNbX)/PLAYGROUND_WIDTH)-1;
                     var celly = Math.round(((y+PLAYGROUND_HEIGHT/2)*tileNbY)/PLAYGROUND_HEIGHT);
                     // Mapping x and y to a map tile
                     console.log("Collision detection with ("+cellx+","+celly+"):"+(map[celly][cellx] == animationCode));
