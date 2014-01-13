@@ -4,10 +4,10 @@
     <mapcanvas>
         <units>meters</units>
         <extent>
-            <xmin>2495168.27057082811370492</xmin>
-            <ymin>2408417.92450845707207918</ymin>
-            <xmax>2498856.22468181001022458</xmax>
-            <ymax>2410605.56863040197640657</ymax>
+            <xmin>2494904.9772537867538631</xmin>
+            <ymin>2408495.5267492700368166</ymin>
+            <xmax>2498592.93136476865038276</xmax>
+            <ymax>2410683.17087121494114399</ymax>
         </extent>
         <projections>1</projections>
         <destinationsrs>
@@ -961,9 +961,9 @@
             <excludeAttributesWFS/>
             <attributeactions/>
         </maplayer>
-        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
+        <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>CBD_GRID_POLY_MULTI_3111_ROTATE_SINGLE20140113171901928</id>
-            <datasource>./CBD_GRID_POLY_MULTI_3111_ROTATE_SINGLE.shp|layerid=0|subset="gq_value" = 3</datasource>
+            <datasource>./CBD_GRID_POLY_MULTI_3111_ROTATE_SINGLE.shp|layerid=0</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
