@@ -4,10 +4,10 @@
     <mapcanvas>
         <units>meters</units>
         <extent>
-            <xmin>2494904.9772537867538631</xmin>
-            <ymin>2408495.5267492700368166</ymin>
-            <xmax>2498592.93136476865038276</xmax>
-            <ymax>2410683.17087121494114399</ymax>
+            <xmin>2493819.2387595591135323</xmin>
+            <ymin>2406891.40066723804920912</ymin>
+            <xmax>2501195.1469815350137651</xmax>
+            <ymax>2411266.6889111353084445</ymax>
         </extent>
         <projections>1</projections>
         <destinationsrs>
@@ -23,7 +23,7 @@
             </spatialrefsys>
         </destinationsrs>
     </mapcanvas>
-    <legend updateDrawingOrder="true" activeLayer="CBD_ROUTE_CELLS20140113180529865">
+    <legend updateDrawingOrder="true" activeLayer="est_route_spatial20140113164130494">
         <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="CBD_ROUTE_CELLS" showFeatureCount="0">
             <filegroup open="true" hidden="false">
                 <legendlayerfile isInOverview="0" layerid="CBD_ROUTE_CELLS20140113180529865" visible="1"/>
@@ -1612,7 +1612,7 @@
                 </spatialrefsys>
             </srs>
             <provider encoding="System">ogr</provider>
-            <previewExpression></previewExpression>
+            <previewExpression>COALESCE( "FID", '&lt;NULL>' )</previewExpression>
             <vectorjoins/>
             <renderer-v2 symbollevels="0" type="singleSymbol">
                 <symbols>
@@ -1961,7 +1961,7 @@
                 </spatialrefsys>
             </srs>
             <provider encoding="System">postgres</provider>
-            <previewExpression></previewExpression>
+            <previewExpression>COALESCE( "id", '&lt;NULL>' )</previewExpression>
             <vectorjoins/>
             <renderer-v2 symbollevels="0" type="singleSymbol">
                 <symbols>
