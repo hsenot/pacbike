@@ -60,7 +60,7 @@ for row in rows:
 			# Putting the resulting object into a JSON format
 			current_event_route = {}
 			current_event_route["s"] = str(row[1])
-			current_event_route["d"] = str(row[2])
+			current_event_route["d"] = str(int(row[2]))
 			current_event_route["l"] = str(row2[0])
 
 			# Putting this object into the larger dictionary of routed events
