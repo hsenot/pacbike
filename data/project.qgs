@@ -4,10 +4,10 @@
     <mapcanvas>
         <units>meters</units>
         <extent>
-            <xmin>2495391.2824880201369524</xmin>
-            <ymin>2408911.60614539822563529</ymin>
-            <xmax>2498249.97347158379852772</xmax>
-            <ymax>2410559.76818068465217948</ymax>
+            <xmin>2496016.27411088161170483</xmin>
+            <ymin>2409115.07030775491148233</ymin>
+            <xmax>2497410.69919689279049635</xmax>
+            <ymax>2409919.01816396880894899</ymax>
         </extent>
         <projections>1</projections>
         <destinationsrs>
@@ -23,10 +23,10 @@
             </spatialrefsys>
         </destinationsrs>
     </mapcanvas>
-    <legend updateDrawingOrder="true" activeLayer="CBD_ROUTE_CELLS20140113180529865">
-        <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="CBD_ROUTE_CELLS" showFeatureCount="0">
+    <legend updateDrawingOrder="true" activeLayer="CBD_ROUTE_CELLS_FINAL20140115121340899">
+        <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="CBD_ROUTE_CELLS_FINAL" showFeatureCount="0">
             <filegroup open="true" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="CBD_ROUTE_CELLS20140113180529865" visible="1"/>
+                <legendlayerfile isInOverview="0" layerid="CBD_ROUTE_CELLS_FINAL20140115121340899" visible="1"/>
             </filegroup>
         </legendlayer>
         <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="CBD_GRID_POLY_MULTI_3111_ROTATE_SINGLE" showFeatureCount="0">
@@ -1590,29 +1590,29 @@
             </pipe>
             <blendMode>0</blendMode>
         </maplayer>
-        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
-            <id>CBD_ROUTE_CELLS20140113180529865</id>
-            <datasource>./CBD_ROUTE_CELLS.shp</datasource>
+        <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
+            <id>CBD_ROUTE_CELLS_FINAL20140115121340899</id>
+            <datasource>./CBD_ROUTE_CELLS_FINAL.shp</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
                 <value></value>
             </keywordList>
-            <layername>CBD_ROUTE_CELLS</layername>
+            <layername>CBD_ROUTE_CELLS_FINAL</layername>
             <srs>
                 <spatialrefsys>
-                    <proj4>+proj=lcc +lat_1=-36 +lat_2=-38 +lat_0=-37 +lon_0=145 +x_0=2500000 +y_0=2500000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
-                    <srsid>1074</srsid>
-                    <srid>3111</srid>
-                    <authid>EPSG:3111</authid>
-                    <description>GDA94 / Vicgrid94</description>
-                    <projectionacronym>lcc</projectionacronym>
+                    <proj4>+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs</proj4>
+                    <srsid>3415</srsid>
+                    <srid>4283</srid>
+                    <authid>EPSG:4283</authid>
+                    <description>GDA94</description>
+                    <projectionacronym>longlat</projectionacronym>
                     <ellipsoidacronym>GRS80</ellipsoidacronym>
-                    <geographicflag>false</geographicflag>
+                    <geographicflag>true</geographicflag>
                 </spatialrefsys>
             </srs>
             <provider encoding="System">ogr</provider>
-            <previewExpression>COALESCE( "FID", '&lt;NULL>' )</previewExpression>
+            <previewExpression></previewExpression>
             <vectorjoins/>
             <renderer-v2 symbollevels="0" type="singleSymbol">
                 <symbols>
@@ -1653,7 +1653,7 @@
                 <property key="labeling/displayAll" value="false"/>
                 <property key="labeling/dist" value="0"/>
                 <property key="labeling/distInMapUnits" value="false"/>
-                <property key="labeling/enabled" value="false"/>
+                <property key="labeling/enabled" value="true"/>
                 <property key="labeling/fieldName" value="&quot;x&quot; || ',' ||  &quot;y&quot;"/>
                 <property key="labeling/fontBold" value="true"/>
                 <property key="labeling/fontCapitals" value="0"/>
