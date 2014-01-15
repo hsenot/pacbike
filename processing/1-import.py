@@ -94,4 +94,8 @@ for fn in os.listdir(fp):
 ### sql = "UPDATE bike_route SET avg_duration_mn = round(ST_Length(ST_Transform(the_geom,3111))/(15000/60))+2"
 ###	print sql
 ###	cur.execute(sql)
-###	conn.commit()		
+###	conn.commit()
+
+### Query to add the reverse routes (assumption: B->A use the same route as A->B)
+### insert into bike_route (o_station,d_station,the_geom,avg_duration_mn)
+### select d_station,o_station,ST_Reverse(the_geom) as the_geom,avg_duration_mn from bike_route

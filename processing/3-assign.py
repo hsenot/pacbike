@@ -30,10 +30,17 @@ rows = cur.fetchall()
 for row in rows:
 	# Selecting the best candidate event for the arrival
 	# Based on probability of arrival there and adequacy of trip time
+	# The parameter k is given a value between 0 and 10
+	# - closer to 10: dominant parameter is the delta duration (i.e. more stations represented in the output dataset)
+	# - closer to 0: dominant parameter is the station's popularity (i.e. less stations represented in the output dataset)
+	# Exploring the middle ground to make the repartition of arrival events (as recorded)
+	# i.e: select station_id,count(*) from event where departure=false group by station_id order by count(*) desc
+	# somewhat like the repartition of arrival events (as assigned based on spatio-temporal constraints)
+	# i.e.: select d_station,count(*) from estimated_route group by d_station order by count(*) desc
 	sql = """
 		select * from
 		(
-		select event_origin, eoat, event_possible_dest, edat, probability_to_arrive_there/(abs(event_delta_duration-estimated_trip_duration)+1) as heuristic from
+		select event_origin, eoat, event_possible_dest, edat, probability_to_arrive_there/(5*abs(event_delta_duration-estimated_trip_duration)+1) as heuristic from
 		(
 		select e1.station_id event_origin,e1.at as eoat, e2.station_id as event_possible_dest, e2.at as edat, (SELECT EXTRACT(epoch FROM (e2.at-e1.at))/60) as event_delta_duration,
 		(select avg_duration_mn from bike_route b where b.o_station=e1.station_id and b.d_station=e2.station_id) as estimated_trip_duration,
