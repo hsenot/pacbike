@@ -4,10 +4,10 @@
     <mapcanvas>
         <units>meters</units>
         <extent>
-            <xmin>2495719.15074001718312502</xmin>
-            <ymin>2409482.96045343857258558</ymin>
-            <xmax>2495890.3744187206029892</xmax>
-            <ymax>2409585.97058064397424459</ymax>
+            <xmin>2495391.2824880201369524</xmin>
+            <ymin>2408911.60614539822563529</ymin>
+            <xmax>2498249.97347158379852772</xmax>
+            <ymax>2410559.76818068465217948</ymax>
         </extent>
         <projections>1</projections>
         <destinationsrs>
@@ -1590,7 +1590,7 @@
             </pipe>
             <blendMode>0</blendMode>
         </maplayer>
-        <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
+        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>CBD_ROUTE_CELLS20140113180529865</id>
             <datasource>./CBD_ROUTE_CELLS.shp</datasource>
             <title></title>
@@ -1625,7 +1625,7 @@
                             <prop k="offset_unit" v="MM"/>
                             <prop k="style" v="no"/>
                             <prop k="style_border" v="solid"/>
-                            <prop k="width_border" v="0.26"/>
+                            <prop k="width_border" v="0.5"/>
                         </layer>
                     </symbol>
                 </symbols>
