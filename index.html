@@ -26,12 +26,14 @@
             var tileW = 30;
             var tileH = 30;
             var movingLock = false;
+            var ghostRoutes;
+            var ghost0route;
 
             var REFRESH_RATE = 30;
             var playerHit = false;
             var playerW = 30;
             var playerH = 30;
-            var player;
+            var player,ghost;
             var SPEEDX = tileW;
             var SPEEDY = tileH;
             // Duration (in ms) to get to the next tile
@@ -122,6 +124,17 @@
                 return map[celly][cellx] == animationCode;
             };
 
+            //
+            var plotXFromTile = function(colX){
+                var pixel_x = parseInt(colX)*tileW;
+                return pixel_x;
+            }
+
+            var plotYFromTile = function(rowY){
+                var pixel_y = parseInt(rowY)*tileH;
+                return pixel_y;
+            }
+
             // Configuring the playground
             $('#playground').playground({
                     height: PLAYGROUND_HEIGHT, 
@@ -150,6 +163,10 @@
                         width: playerW, 
                         height: playerH
                     }).end()
+                    .addGroup("ghosts",{
+                        width: playerW, 
+                        height: playerH
+                    }).end()
                 .end();
 
             
@@ -170,8 +187,21 @@
 
                     $("#player").addSprite("pacman", {
                         animation: pacman,
-                        posx: PLAYGROUND_WIDTH/2-(PLAYGROUND_WIDTH/2%tileW)+tileW/2-playerW/2, 
-                        posy: PLAYGROUND_HEIGHT/2-(PLAYGROUND_HEIGHT/2%tileH)+tileH/2-playerH/2,
+                        posx: 0,
+                        posy: 0,
+                        width: playerW, 
+                        height: playerH
+                    });
+
+                    // Ghost sprites
+                    var ghost = new $.gameQuery.Animation({imageURL: "images/ghost-small.png"});
+                    ghost0route = ghostRoutes["0"].l.split(",");
+                    var ghost0initPos = ghost0route[0].split("X");
+
+                    $("#ghosts").addSprite("ghost", {
+                        animation: ghost,
+                        posx: 0, 
+                        posy: 0,
                         width: playerW, 
                         height: playerH
                     });
@@ -208,6 +238,13 @@
                             }
                         }
                     }
+
+                    $("#player")[0].player = new Player($("#player"));
+                    player = $("#player");
+
+                    $("#ghosts")[0].ghost = new Ghost($("#ghosts"));
+                    ghost0 = $("#ghosts")[0].ghost;                    
+
                 };
 
                 // Loading the asset file where the ghosts routes are
@@ -219,33 +256,155 @@
                         {
                             // Now moving to the detail page with this task id
                             console.log('Asset JSON file loaded: ' + Object.keys(json).length + ' events.');
-
+                            // Global variable holding the routes
+                            ghostRoutes = json;
+                            // Game init routine
                             $.playground().startGame(gameInit);
                         }
                     }
                 );
 
                 function Player(node){
+                    var that = this;
                     this.node = node;
                     this.respawnTime = -1;
                     this.grace = false;
                     this.score = 0;
+                    this.lock = false;
+
+                    // Initial position - somewhere in the middle of the grid
+                    this.node.x(PLAYGROUND_WIDTH/2-(PLAYGROUND_WIDTH/2%tileW)+tileW/2-playerW/2);
+                    this.node.y(PLAYGROUND_HEIGHT/2-(PLAYGROUND_HEIGHT/2%tileH)+tileH/2-playerH/2);
 
                     this.addPoints=function(pts){
                         this.score += pts;
                         $('#currentScore').html(this.score);
                     };
 
+                    this.moveTo = function(newx,newy){
+                        if(newx >= 0 && newx <= PLAYGROUND_WIDTH && newx != this.node.x()){
+                            if (!$('#pacman').collision('#tilemap,#tilemap div.gQ_tileType_1',{x:newx}).length)
+                            {
+                                this.lock = true;
+                                $({x:that.node.x()}).animate({x:newx},{duration: STEP_SPEEDX, step: function(step){
+                                    that.node.x(step);
+                                    if (that.node.x() == newx)
+                                    {
+                                        that.lock = false;
+                                    }
+                                }});
+                            }
+                            else
+                            {
+                                console.log('Can\'t move right/left due to tile:'+$('#pacman').collision('#tilemap,#tilemap div.gQ_tileType_1',{x:newx})[0].id);
+                            }
+                        }
+                        if (newy >= 0 && newy <= PLAYGROUND_HEIGHT && newy != this.node.y()){
+                            if (!$('#pacman').collision('#tilemap,#tilemap div.gQ_tileType_1',{y:newy}).length)
+                            {
+                                this.lock = true;
+                                $({y:that.node.y()}).animate({y:newy},{duration: STEP_SPEEDY, step: function(step){
+                                    that.node.y(step);
+                                    if (that.node.y() == newy)
+                                    {
+                                        that.lock = false;
+                                    }
+                                }});
+                            }
+                            else
+                            {
+                                console.log('Can\'t move up/down due to tile:'+$('#pacman').collision('#tilemap,#tilemap div.gQ_tileType_1',{y:newy})[0].id);
+                            }
+                        }
+                    }
+
                     return true;
                 }
 
-                $("#player")[0].player = new Player($("#player"));
-                player = $("#player");
+                function Ghost(node){
+                    var that = this;
+                    this.node = node;
+                    this.route = ghost0route;
+                    this.lock = false;
+
+                    // Initial position
+                    this.node.x(plotXFromTile(parseInt(this.route[0].split("X")[0])));
+                    this.node.y(plotYFromTile(parseInt(this.route[0].split("X")[1])));
+                    // Removing the position we just consumed
+                    this.route.shift();
+
+                    // updates the position of the enemy
+                    this.updateOne = function(playerNode){
+                        if (this.route.length && !this.lock)
+                        {
+                            this.lock = true;
+                            this.updateX(playerNode);
+                            this.updateY(playerNode);
+                        }
+                    };    
+                      
+                    this.updateX = function(playerNode){
+                        var nextposx = plotXFromTile(parseInt(this.route[0].split("X")[0]));
+                        if (nextposx != this.node.x())
+                        {
+                            // Animating it to its next position
+                            $({x:that.node.x()}).animate(
+                                {x:nextposx},
+                                {
+                                    duration: 150, 
+                                    step: function(step){
+                                        //console.log('Moving from '+that.node.x()+' towards ' + nextposx + ' at step ' + step + ', route arrays has '+that.route.length+ ' elements');
+
+                                        that.node.x(step);
+                                        if (that.node.x() == nextposx)
+                                        {
+                                            if (that.lock)
+                                            {
+                                                that.lock = false;
+                                                // Removing the position that's just been the object of the update
+                                                that.route.shift();
+                                            }
+                                        }
+                                    }
+                                }
+                            );
+                        }
+                    };
+                    this.updateY= function(playerNode){
+                        var nextposy = plotYFromTile(parseInt(this.route[0].split("X")[1]));
+                        if (nextposy != this.node.y())
+                        {
+                            // Animating it to its next position
+                            $({y:that.node.y()}).animate(
+                                {y:nextposy},
+                                {
+                                    duration: 150, 
+                                    step: function(step){
+                                        //console.log('Moving from '+that.node.y()+' towards ' + nextposy + ' at step ' + step + ', route arrays has '+that.route.length+ ' elements');
+
+                                        that.node.y(step);
+                                        if (that.node.y() == nextposy)
+                                        {
+                                            if (that.lock)
+                                            {
+                                                that.lock = false;
+                                                // Removing the position that's just been the object of the update
+                                                that.route.shift();
+                                            }
+                                        }
+                                    }
+                                }
+                            );
+                        }
+                    };
+
+                    return true;
+                }
 
                 $.playground().registerCallback(function(){
 
-                    var posx = player.x();
-                    var posy = player.y();
+                    var posx = player[0].player.node.x();
+                    var posy = player[0].player.node.y();
 
                     $('#pacman').collision("#pacgums,#pacgums div").each(function(idx,pacgum){
                         //console.log("Collided with pacgum"+pacgum.id);
@@ -262,78 +421,33 @@
                     });
 
                     //Update the movement of the player
-                    if(!movingLock){
+                    if(!player[0].player.lock){
                       //$("#player")[0].player.update();
                       if(jQuery.gameQuery.keyTracker[65]){ //this is left! (a)
                         var nextpos = posx-SPEEDX;
-                        if(nextpos >= -PLAYGROUND_WIDTH/2 + playerW/2){
-                            if (!collisionDetect(nextpos,posy,2))
-                            {
-                                movingLock = true;
-                                $({x:posx}).animate({x:nextpos},{duration: STEP_SPEEDX, step: function(step){
-                                    player.x(step);
-                                    if (player.x() == nextpos)
-                                    {
-                                        movingLock = false;
-                                    }
-                                }});
-                            }
-                        }
+                        player[0].player.moveTo(nextpos,posy);
                       }
                       if(jQuery.gameQuery.keyTracker[68]){ //this is right! (d)
                         var nextpos = posx+SPEEDX;
-                        if(nextpos <= PLAYGROUND_WIDTH/2 - playerW/2){
-                            if (!collisionDetect(nextpos,posy,2))
-                            {
-                                movingLock = true;
-                                $({x:posx}).animate({x:nextpos},{duration: STEP_SPEEDX, step: function(step){
-                                    player.x(step);
-                                    if (player.x() == nextpos)
-                                    {
-                                        movingLock = false;
-                                    }
-                                }});
-                            }
-                        }
+                        player[0].player.moveTo(nextpos,posy);
                       }
                       if(jQuery.gameQuery.keyTracker[87]){ //this is up! (w)
                         var nextpos = posy-SPEEDY;
-                        if(nextpos >= -PLAYGROUND_HEIGHT/2){
-                            if (!collisionDetect(posx,nextpos,2))
-                            {
-                                movingLock = true;
-                                $({y:posy}).animate({y:nextpos},{duration: STEP_SPEEDY, step: function(step){
-                                    player.y(step);
-                                    if (player.y() == nextpos)
-                                    {
-                                        movingLock = false;
-                                    }
-                                }});
-                            }
-                        }
+                        player[0].player.moveTo(posx,nextpos);
                       }
                       if(jQuery.gameQuery.keyTracker[83]){ //this is down! (s)
                         var nextpos = posy+SPEEDY;
-                        if(nextpos < PLAYGROUND_HEIGHT/2 - playerH/2){
-                            if (!collisionDetect(posx,nextpos,2))
-                            {
-                                movingLock = true;
-                                $({y:posy}).animate({y:nextpos},{duration: STEP_SPEEDY, step: function(step){
-                                    player.y(step);
-                                    if (player.y() == nextpos)
-                                    {
-                                        movingLock = false;
-                                    }
-                                }});
-                            }
-                        }
+                        player[0].player.moveTo(posx,nextpos);
                       }
                     } else {
                         //player.css("top", ""+ posy +"px");
                         //player.css("left", ""+ posx +"px");
-                      }
-                    }, REFRESH_RATE);
+                    }
 
+                    // Move the ghost
+                    ghost0.updateOne();
+
+                    }, REFRESH_RATE);
             });
         </script>
     </body>
