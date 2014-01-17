@@ -161,7 +161,8 @@
             
             // register the start button and remove the splash screen once the game is ready to starts
             $("#start").click(function(){
-                $.playground().startGame(function(){
+                // Game initialisation routine
+                var gameInit = function(){
                     $("#splash").remove();
 
                     // Let the game begin!
@@ -207,8 +208,22 @@
                             }
                         }
                     }
+                };
 
-                });
+                // Loading the asset file where the ghosts routes are
+                $.getJSON("routed_events/assets.json",
+                    {},
+                    function(json){
+                        //
+                        if (json)
+                        {
+                            // Now moving to the detail page with this task id
+                            console.log('Asset JSON file loaded: ' + Object.keys(json).length + ' events.');
+
+                            $.playground().startGame(gameInit);
+                        }
+                    }
+                );
 
                 function Player(node){
                     this.node = node;
