@@ -277,7 +277,7 @@
                     };
 
                     // Positionning the pacgums
-                    var pacgum = new $.gameQuery.Animation({imageURL: "images/apple-small.png"});
+                    var pacgum = new $.gameQuery.Animation({imageURL: "images/banana-small.png"});
                     var coffee = new $.gameQuery.Animation({imageURL: "images/coffeecup-small.png"});
 
                     for (var j=0; j < tileNbY ; j+=1)
@@ -287,6 +287,8 @@
                             if (map[j][i] == 3 && ((i+j)%3==0))
                             {
                                 if (Math.random()>0.8){
+                                    // Width and height must be those of the image
+                                    // Pox and posy must reflect the image size as well
                                     $("#pacgums").addSprite("coffee-"+i+"_"+j, {
                                         animation: coffee,
                                         posx: (i+1/2)*tileW-25/2, 
@@ -297,12 +299,14 @@
                                 }
                                 else
                                 {
+                                    // Width and height must be those of the image
+                                    // Pox and posy must reflect the image size as well
                                     $("#pacgums").addSprite("pacgum-"+i+"_"+j, {
                                         animation: pacgum,
-                                        posx: (i+1/2)*tileW-20/2, 
-                                        posy: (j+1/2)*tileH-20/2,
-                                        width: 20,
-                                        height: 20
+                                        posx: (i+1/2)*tileW-25/2, 
+                                        posy: (j+1/2)*tileH-16/2,
+                                        width: 25,
+                                        height: 16
                                     });
                                 }
                             }
@@ -396,7 +400,7 @@
                         //console.log('Moving from:'+this.node.x()+','+this.node.y()+' to '+newx+','+newy);
 
                         if(newx >= 0 && newx <= PLAYGROUND_WIDTH && newx != this.node.x()){
-                            if (!player.collision('#tilemap,#tilemap div.gQ_tileType_1',{x:newx}).length)
+                            if (player.collision('#tilemap,#tilemap div.gQ_tileType_2',{x:newx}).length)
                             {
                                 //console.log('Moving to tile:'+$('#player').collision('#tilemap,#tilemap div.gQ_tileType_2',{x:newx})[0].id+' ('+$('#player').collision('#tilemap,#tilemap div',{x:newx}).length+' tiles detected)');
 
@@ -419,7 +423,7 @@
                             }
                         }
                         if (newy >= 0 && newy <= PLAYGROUND_HEIGHT && newy != this.node.y()){
-                            if (!player.collision('#tilemap,#tilemap div.gQ_tileType_1',{y:newy}).length)
+                            if (player.collision('#tilemap,#tilemap div.gQ_tileType_2',{y:newy}).length)
                             {
                                 //console.log('Moving to tile:'+$('#player').collision('#tilemap,#tilemap div.gQ_tileType_2',{y:newy})[0].id+' ('+$('#player').collision('#tilemap,#tilemap div',{y:newy}).length+' tiles detected)');
 
