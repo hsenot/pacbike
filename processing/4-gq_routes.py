@@ -22,7 +22,7 @@ except:
 cur = conn.cursor()
 
 # Getting all the departure events
-sql = "select id,o_dt as start,round((SELECT EXTRACT(epoch FROM (d_dt-o_dt))/60)) as duration from estimated_route order by start"
+sql = "select e.id,e.o_dt as start,(select round((SELECT EXTRACT(epoch FROM (e.o_dt-er.o_dt))/60)) from estimated_route er order by er.o_dt limit 1) as mn_since_first,round((SELECT EXTRACT(epoch FROM (e.d_dt-e.o_dt))/60)) as duration from estimated_route e order by start"
 print sql
 cur.execute(sql)
 rows = cur.fetchall()
@@ -60,8 +60,9 @@ for row in rows:
 			# Putting the resulting object into a JSON format
 			current_event_route = {}
 			current_event_route["s"] = str(row[1])
-			current_event_route["d"] = str(int(row[2]))
+			current_event_route["d"] = str(int(row[3]))
 			current_event_route["l"] = str(row2[0])
+			current_event_route["o"] = str(int(row[2]))
 
 			# Putting this object into the larger dictionary of routed events
 			all_events[event_ct] = current_event_route
