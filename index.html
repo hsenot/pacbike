@@ -235,19 +235,15 @@
                     width: PLAYGROUND_WIDTH, 
                     height: PLAYGROUND_HEIGHT
                 }).end()
-                .addGroup("actors",{
-                    width: PLAYGROUND_WIDTH, 
-                    height: PLAYGROUND_HEIGHT
-                })
-                    .addGroup("player",{
-                        width: playerW, 
-                        height: playerH
-                    }).end()
-                    .addGroup("ghosts",{
-                        width: playerW, 
-                        height: playerH
-                    }).end()
-                .end();
+                .addGroup("player",{
+                    width: playerW, 
+                    height: playerH
+                }).end()
+                .addGroup("ghosts",{
+                    width: playerW, 
+                    height: playerH
+                }).end()
+                ;
 
             
             // configure the loading bar
@@ -410,6 +406,8 @@
                                         duration:STEP_SPEEDX, 
                                         complete:function(){
                                             that.lock = false;
+                                            // Actually move to the new position
+                                            // Critical for collision detections!
                                             that.node.x(newx);
                                         }
                                     }
@@ -431,6 +429,8 @@
                                         duration:STEP_SPEEDY, 
                                         complete:function(){
                                             that.lock = false;
+                                            // Actually move to the new position
+                                            // Critical for collision detections!
                                             that.node.y(newy);
                                         }
                                     }
@@ -501,6 +501,9 @@
                                         if (that.lock)
                                         {
                                             that.lock = false;
+                                            // Actually move to the new position
+                                            // Critical for collision detections!
+                                            that.node.x(nextposx);
                                             // Removing the position that's just been the object of the update
                                             that.route.shift();                                            
                                         }
@@ -520,6 +523,9 @@
                                         if (that.lock)
                                         {
                                             that.lock = false;
+                                            // Actually move to the new position
+                                            // Critical for collision detections!
+                                            that.node.y(nextposy);                                        
                                             // Removing the position that's just been the object of the update
                                             that.route.shift();                                            
                                         }
@@ -540,19 +546,33 @@
                     var posx = player[0].player.node.x();
                     var posy = player[0].player.node.y();
 
-                    player.collision("#pacgums,#pacgums div").each(function(idx,pacgum){
-                        //console.log("Collided with pacgum"+pacgum.id);
-                        $('#'+pacgum.id).animate({opacity:0},100);
-                        $('#'+pacgum.id).remove();
+                    var pacgumCollision = player.collision("#pacgums,#pacgums div");
+                    if (pacgumCollision.length)
+                    {
+                        pacgumCollision.each(function(idx,pacgum){
+                            //console.log("Collided with pacgum"+pacgum.id);
+                            $('#'+pacgum.id).animate({opacity:0},100);
+                            $('#'+pacgum.id).remove();
 
-                        var ptsToAdd = 10;
-                        if (pacgum.id.substr(0,6)=="coffee")
-                        {
-                            ptsToAdd = 50;
-                        }
-                        // Updating the score as well
-                        player[0].player.addPoints(ptsToAdd);
-                    });
+                            var ptsToAdd = 10;
+                            if (pacgum.id.substr(0,6)=="coffee")
+                            {
+                                ptsToAdd = 50;
+                            }
+                            // Updating the score as well
+                            player[0].player.addPoints(ptsToAdd);
+                        });
+                    }
+
+                    var ghostCollision = player.collision("#ghosts,#ghosts div");
+                    if (ghostCollision.length)
+                    {
+                        ghostCollision.each(function(idx,ghost){
+                            var ghostPredator = $('#'+ghost.id);
+                            // Player dies? Score?
+                            console.log("Ghost "+ghost.id+" has collided with Pacman!")
+                        });
+                    }
 
                     //Update the movement of the player
                     if(!player[0].player.lock){
