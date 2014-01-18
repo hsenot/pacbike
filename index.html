@@ -37,7 +37,7 @@
             var tileW = 30;
             var tileH = 30;
             var movingLock = false;
-            var ghostRoutes, lastGhostIdx=0;
+            var ghostRoutes, lastGhostIdx=0, ghostAnimArr;
             var ghost0route;
 
             var REFRESH_RATE = 30;
@@ -137,8 +137,7 @@
 
             // Let the game begin!
             var pacman = new $.gameQuery.Animation({imageURL: "images/pacman-small.png"});
-            // Ghost sprites
-            var ghost = new $.gameQuery.Animation({imageURL: "images/ghost-small.png"});
+
 
             // My own wall collision detection function
             var collisionDetect = function(x,y,animationCode){
@@ -252,6 +251,12 @@
                         height: playerH
                     });
 
+                    ghostAnimArr = {
+                        "green": new $.gameQuery.Animation({imageURL: "images/ghost-small-green.png"}),
+                        "orange": new $.gameQuery.Animation({imageURL: "images/ghost-small-orange.png"}),
+                        "red": new $.gameQuery.Animation({imageURL: "images/ghost-small-red.png"})
+                    };
+
                     // Positionning the pacgums
                     var pacgum = new $.gameQuery.Animation({imageURL: "images/apple-small.png"});
                     var coffee = new $.gameQuery.Animation({imageURL: "images/coffeecup-small.png"});
@@ -301,6 +306,16 @@
                     {
                         if (parseInt(ghostRoutes[j].o) < currentTimer)
                         {
+                            // Duration of trips: short / medium / long
+                            var tripDuration = parseInt(ghostRoutes[j].d);
+
+                            if (tripDuration < 20)
+                            {ghost = ghostAnimArr["green"];}
+                            else if (tripDuration < 40)
+                            {ghost = ghostAnimArr["orange"];}
+                            else
+                            {ghost = ghostAnimArr["red"];}
+
                             // Release the ghost!
                             $("#ghosts").addSprite("ghost"+j, {
                                 animation: ghost,
@@ -408,10 +423,11 @@
                     return true;
                 }
 
-                function Ghost(node,route){
+                function Ghost(node,route,duration){
                     var that = this;
                     this.node = node;
                     this.route = route;
+                    this.tripDuration = 
                     this.lock = false;
 
                     // Initial position
@@ -453,7 +469,7 @@
                         {
                             this.node.animate({x:nextposx}, 
                                 {
-                                    duration:GHOST_STEP_SPEEDX+(Math.random()-0.5)*GHOST_STEP_SPEEDX, 
+                                    duration:GHOST_STEP_SPEEDX+(Math.random()*0.5-0.25)*GHOST_STEP_SPEEDX, 
                                     complete:function(){
                                         if (that.lock)
                                         {
@@ -472,7 +488,7 @@
                         {
                             this.node.animate({y:nextposy}, 
                                 {
-                                    duration:GHOST_STEP_SPEEDY+(Math.random()-0.5)*GHOST_STEP_SPEEDY, 
+                                    duration:GHOST_STEP_SPEEDY+(Math.random()*0.5-0.25)*GHOST_STEP_SPEEDY, 
                                     complete:function(){
                                         if (that.lock)
                                         {
