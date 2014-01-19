@@ -34,12 +34,12 @@
         <script src="GSAP/src/minified/TweenMax.min.js"></script>
         <script src="GSAP/src/minified/jquery.gsap.min.js"></script>
         <script>
-            var tileW = 30;
-            var tileH = 30;
-            var movingLock = false;
+            // So that it fits on a 1280 pixels display
+            var tileW = 17;
+            // Height is less of a constraint at this stage
+            var tileH = 22;
             var ghostRoutes, lastGhostIdx=0, ghostAnimArr;
-            var ghost0route;
-            var GHOST_OPACITY_TRANSITION_MS = 1500;
+            var GHOST_OPACITY_TRANSITION_MS = 1000;
 
             var REFRESH_RATE = 30;
             // Number of minutes a refresh is representing (timer increment)
@@ -48,8 +48,8 @@
             var timer = 0;
 
             var playerHit = false;
-            var playerW = 30;
-            var playerH = 30;
+            var playerW = 26;
+            var playerH = 28;
             var player,allGhosts=new Array();
             var SPEEDX = tileW;
             var SPEEDY = tileH;
@@ -67,53 +67,23 @@
             var animations = [];
             // Laneways
             animations[0] =  new $.gameQuery.Animation({
-                imageURL:      'http://placehold.it/'+tileW+'/0B173B&text=.',
-                type:          $.gameQuery.ANIMATION_ONCE,
-                numberOfFrame: 1,
-                delta:         0,
-                rate:          1,
-                offsetx:       0,
-                offsety:       0
+                imageURL:'http://placehold.it/'+tileW+'x'+tileH+'/0B173B&text=.'
             });
             // Buildings
             animations[1] =  new $.gameQuery.Animation({
-                imageURL:      'http://placehold.it/'+tileW+'/0000FF&text=.',
-                type:          $.gameQuery.ANIMATION_ONCE,
-                numberOfFrame: 1,
-                delta:         0,
-                rate:          1,
-                offsetx:       0,
-                offsety:       0
+                imageURL:      'http://placehold.it/'+tileW+'x'+tileH+'/0000FF&text=.'
             });
             // Main arteries
             animations[2] =  new $.gameQuery.Animation({
-                imageURL:      'http://placehold.it/'+tileW+'/000000&text=.',
-                type:          $.gameQuery.ANIMATION_ONCE,
-                numberOfFrame: 1,
-                delta:         0,
-                rate:          1,
-                offsetx:       0,
-                offsety:       0
+                imageURL:      'http://placehold.it/'+tileW+'x'+tileH+'/000000&text=.'
             });
             // Bike stations
             animations[3] =  new $.gameQuery.Animation({
-                imageURL:      'http://placehold.it/'+tileW+'/F7FE2E&text=.',
-                type:          $.gameQuery.ANIMATION_ONCE,
-                numberOfFrame: 1,
-                delta:         0,
-                rate:          1,
-                offsetx:       0,
-                offsety:       0
+                imageURL:      'http://placehold.it/'+tileW+'x'+tileH+'/F7FE2E&text=.'
             });
             // CBD entry points
             animations[4] =  new $.gameQuery.Animation({
-                imageURL:      'http://placehold.it/'+tileW+'/0B173B&text=.',
-                type:          $.gameQuery.ANIMATION_ONCE,
-                numberOfFrame: 1,
-                delta:         0,
-                rate:          1,
-                offsetx:       0,
-                offsety:       0
+                imageURL:      'http://placehold.it/'+tileW+'x'+tileH+'/0B173B&text=.'
             });
 
              // the tilemap array
@@ -173,12 +143,12 @@
 
             //
             var plotXFromTile = function(colX){
-                var pixel_x = (parseInt(colX)+1)*tileW;
+                var pixel_x = (parseInt(colX)+1)*tileW-4;
                 return pixel_x;
             }
 
             var plotYFromTile = function(rowY){
-                var pixel_y = (parseInt(rowY)+1)*tileH;
+                var pixel_y = (parseInt(rowY)+1)*tileH-2;
                 return pixel_y;
             }
 
@@ -243,6 +213,8 @@
                     width: playerW, 
                     height: playerH
                 }).end()
+                // Centering the playground
+                .css({"position":"relative","margin":"0 auto"})
                 ;
 
             
@@ -277,38 +249,85 @@
                     };
 
                     // Positionning the pacgums
-                    var pacgum = new $.gameQuery.Animation({imageURL: "images/banana-small.png"});
-                    var coffee = new $.gameQuery.Animation({imageURL: "images/coffeecup-small.png"});
+                    var pacgumArr = {
+                        "apple": {
+                            "animation":new $.gameQuery.Animation({imageURL: "images/apple-small.png"}),
+                            "width": 20,
+                            "height": 20,
+                            "pts": 10
+                        },
+                        "banana": {
+                            "animation":new $.gameQuery.Animation({imageURL: "images/banana-small.png"}),
+                            "width": 25,
+                            "height": 16,
+                            "pts": 10
+                        },
+                        "cherry": {
+                            "animation":new $.gameQuery.Animation({imageURL: "images/cherry-small.png"}),
+                            "width": 22,
+                            "height": 22,
+                            "pts": 10
+                        },
+                        "coffee": {
+                            "animation":new $.gameQuery.Animation({imageURL: "images/coffeecup-small.png"}),
+                            "width": 25,
+                            "height": 24,
+                            "pts": 10
+                        },
+                        "strawberry": {
+                            "animation":new $.gameQuery.Animation({imageURL: "images/strawberry-small.png"}),
+                            "width": 16,
+                            "height": 24,
+                            "pts": 10
+                        },
+                        "watermelon": {
+                            "animation":new $.gameQuery.Animation({imageURL: "images/watermelon-small.png"}),
+                            "width": 26,
+                            "height": 21,
+                            "pts": 10
+                        }
+                    };
+
+                    var pacgum;
 
                     for (var j=0; j < tileNbY ; j+=1)
                     {
                         for (var i=0; i < tileNbX ; i+=1)
                         {
-                            if (map[j][i] == 3 && ((i+j)%3==0))
+                            if (map[j][i] == 3 && ((i+j)%8==0))
                             {
-                                if (Math.random()>0.8){
-                                    // Width and height must be those of the image
-                                    // Pox and posy must reflect the image size as well
-                                    $("#pacgums").addSprite("coffee-"+i+"_"+j, {
-                                        animation: coffee,
-                                        posx: (i+1/2)*tileW-25/2, 
-                                        posy: (j+1/2)*tileH-24/2,
-                                        width: 25,
-                                        height: 24
-                                    });
-                                }
-                                else
+                                var r = Math.random();
+                                if (r<0.5)
                                 {
-                                    // Width and height must be those of the image
-                                    // Pox and posy must reflect the image size as well
-                                    $("#pacgums").addSprite("pacgum-"+i+"_"+j, {
-                                        animation: pacgum,
-                                        posx: (i+1/2)*tileW-25/2, 
-                                        posy: (j+1/2)*tileH-16/2,
-                                        width: 25,
-                                        height: 16
-                                    });
+                                    pacgum = pacgumArr["cherry"];
                                 }
+                                else if (r<0.7)
+                                {
+                                    pacgum = pacgumArr["strawberry"];
+                                }
+                                else if (r<0.8)
+                                {
+                                    pacgum = pacgumArr["banana"];
+                                }
+                                else if (r<0.9)
+                                {
+                                    pacgum = pacgumArr["watermelon"];
+                                }
+                                else if (r<=1.0)
+                                {
+                                    pacgum = pacgumArr["coffee"];
+                                }
+
+                                // Width and height must be those of the image
+                                // Pox and posy must reflect the image size as well
+                                $("#pacgums").addSprite("pg-"+i+"_"+j+"X"+pacgum.pts, {
+                                    animation: pacgum.animation,
+                                    posx: (i+1/2)*tileW-pacgum.width/2, 
+                                    posy: (j+1/2)*tileH-pacgum.height/2,
+                                    width: pacgum.width,
+                                    height: pacgum.height
+                                });
+
                             }
                         }
                     }
@@ -348,8 +367,7 @@
                                 height: playerH
                             });
 
-                            ghost0route = ghostRoutes[j+""].l.split(",");
-                            $("#ghost"+j)[0].ghost = new Ghost($("#ghost"+j),ghost0route);
+                            $("#ghost"+j)[0].ghost = new Ghost($("#ghost"+j),ghostRoutes[j+""].l.split(","));
                             allGhosts[j] = $("#ghost"+j)[0].ghost;
 
                             // Incrementing the last released ghist index
@@ -558,11 +576,7 @@
                             $('#'+pacgum.id).animate({opacity:0},100);
                             $('#'+pacgum.id).remove();
 
-                            var ptsToAdd = 10;
-                            if (pacgum.id.substr(0,6)=="coffee")
-                            {
-                                ptsToAdd = 50;
-                            }
+                            var ptsToAdd = parseInt(pacgum.id.split("X")[1]);
                             // Updating the score as well
                             player[0].player.addPoints(ptsToAdd);
                         });
