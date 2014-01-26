@@ -29,15 +29,56 @@
             </div>
         </div>
 
+        <input id="keyEvt" type="text" style="display:hidden;">
+
         <script language="JavaScript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
         <script language="JavaScript" type="text/javascript" src="jquery.gamequery-0.7.1.js"></script>
         <script src="GSAP/src/minified/TweenMax.min.js"></script>
         <script src="GSAP/src/minified/jquery.gsap.min.js"></script>
+        <script src="http://localhost:8888/socket.io/socket.io.js"></script>
         <script>
-            // So that it fits on a 1280 pixels display
-            var tileW = 17;
+            var socket = io.connect('http://localhost:8888');
+            var eventLock = false;
+            socket.on('gamepad', function (data) {
+                //console.log(JSON.stringify(data));
+                if(!player[0].player.lock){
+                    if (data.spwr >= 90)
+                    {
+                        console.log('Received gamepad data, angle:'+data.sdeg+' power:'+data.spwr);
+                        if(data.sdeg > 45 && data.sdeg < 135) {
+                            $.gameQuery.keyTracker[68] = true;
+                       } 
+                        else if(data.sdeg > 225 && data.sdeg < 315) {
+                            $.gameQuery.keyTracker[65] = true;
+                        }
+                        else if(data.sdeg <= 45 || data.sdeg >= 315) {
+                            $.gameQuery.keyTracker[87] = true;
+                        }
+                        else if(data.sdeg >= 135 && data.sdeg <= 225) {
+                            $.gameQuery.keyTracker[83] = true;
+                        }
+                    }
+                }
+
+                if(data.spwr < 90) {
+                    console.log('Halting: angle:'+data.sdeg+' power:'+data.spwr);
+                  //player[0].player.halt();
+                  $.gameQuery.keyTracker[65] = false;
+                  $.gameQuery.keyTracker[68] = false;
+                  $.gameQuery.keyTracker[87] = false;
+                  $.gameQuery.keyTracker[83] = false;
+                }
+
+            });
+
+            socket.on('connect', function (data) {
+            //console.log(data);
+            });
+
+            // So that it fits on a 1280 pixels display: tileW=17,tileH=22
+            var tileW = 30;
             // Height is less of a constraint at this stage
-            var tileH = 22;
+            var tileH = 30;
             var ghostRoutes, lastGhostIdx=0, ghostAnimArr;
             var GHOST_OPACITY_TRANSITION_MS = 1000;
 
@@ -143,12 +184,12 @@
 
             //
             var plotXFromTile = function(colX){
-                var pixel_x = (parseInt(colX)+1)*tileW-4;
+                var pixel_x = (parseInt(colX)+1)*tileW+2;
                 return pixel_x;
             }
 
             var plotYFromTile = function(rowY){
-                var pixel_y = (parseInt(rowY)+1)*tileH-2;
+                var pixel_y = (parseInt(rowY)+1)*tileH+2;
                 return pixel_y;
             }
 
@@ -414,6 +455,10 @@
                         $('#currentScore').html(this.score);
                     };
 
+                    this.halt = function(){
+                        // Nothing to do there!
+                    }
+
                     this.moveTo = function(newx,newy){
                         //console.log('Moving from:'+this.node.x()+','+this.node.y()+' to '+newx+','+newy);
 
@@ -437,10 +482,11 @@
                             }
                             else
                             {
+                                player[0].player.lock = false;
                                 //console.log('Can\'t move right/left due to tile:'+$('#pacman').collision('#tilemap,#tilemap div.gQ_tileType_1',{x:newx})[0].id);
                             }
                         }
-                        if (newy >= 0 && newy <= PLAYGROUND_HEIGHT && newy != this.node.y()){
+                        else if (newy >= 0 && newy <= PLAYGROUND_HEIGHT && newy != this.node.y()){
                             if (player.collision('#tilemap,#tilemap div.gQ_tileType_2',{y:newy}).length)
                             {
                                 //console.log('Moving to tile:'+$('#player').collision('#tilemap,#tilemap div.gQ_tileType_2',{y:newy})[0].id+' ('+$('#player').collision('#tilemap,#tilemap div',{y:newy}).length+' tiles detected)');
@@ -456,9 +502,11 @@
                                             that.node.y(newy);
                                         }
                                     }
-                                );                            }
+                                );
+                            }
                             else
                             {
+                                player[0].player.lock = false;
                                 //console.log('Can\'t move up/down due to tile:'+$('#player').collision('#tilemap,#tilemap div.gQ_tileType_1',{y:newy})[0].id);
                             }
                         }
@@ -597,18 +645,22 @@
                       //$("#player")[0].player.update();
                       if(jQuery.gameQuery.keyTracker[65]){ //this is left! (a)
                         var nextpos = posx-SPEEDX;
+                        player[0].player.lock = true;
                         player[0].player.moveTo(nextpos,posy);
                       }
                       if(jQuery.gameQuery.keyTracker[68]){ //this is right! (d)
                         var nextpos = posx+SPEEDX;
+                        player[0].player.lock = true;
                         player[0].player.moveTo(nextpos,posy);
                       }
                       if(jQuery.gameQuery.keyTracker[87]){ //this is up! (w)
                         var nextpos = posy-SPEEDY;
+                        player[0].player.lock = true;
                         player[0].player.moveTo(posx,nextpos);
                       }
                       if(jQuery.gameQuery.keyTracker[83]){ //this is down! (s)
                         var nextpos = posy+SPEEDY;
+                        player[0].player.lock = true;
                         player[0].player.moveTo(posx,nextpos);
                       }
                     } else {
