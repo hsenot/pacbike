@@ -79,22 +79,22 @@ for fn in os.listdir(fp):
 		##break
 
 ### Looping thru all lines from the batch route result (should only be done once, kept for archival reasons)
-### with open('batchroute/out/B3.csv') as myroutefile:
-###	for line in myroutefile:
-###		# Extraction of the right parameters to build a SQL query
-###		line_items = line.split(";")
-###		if len(line_items) > 1:
-###			if len(line_items[1]) > 1:
-###				sql = "INSERT INTO bike_route (o_station,d_station,the_geom) VALUES ("+line_items[0].split("-")[0]+","+line_items[0].split("-")[1]+",ST_GeomFromText('LINESTRING("+line_items[1][:-1]+")',4326));"
-###				print sql
-###				cur.execute(sql)
-###				conn.commit()		
+with open('batchroute/out/B3.csv') as myroutefile:
+	for line in myroutefile:
+		# Extraction of the right parameters to build a SQL query
+		line_items = line.split(";")
+		if len(line_items) > 1:
+			if len(line_items[1]) > 1:
+				sql = "INSERT INTO bike_route (o_station,d_station,the_geom) VALUES ("+line_items[0].split("-")[0]+","+line_items[0].split("-")[1]+",ST_GeomFromText('LINESTRING("+line_items[1][:-1]+")',4326));"
+				print sql
+				cur.execute(sql)
+				conn.commit()		
 
 ### Assuming 2 minutes to get going / arrive and 15 km/h average speed (should only be done once, kept for archival reasons)
-### sql = "UPDATE bike_route SET avg_duration_mn = round(ST_Length(ST_Transform(the_geom,3111))/(15000/60))+2"
-###	print sql
-###	cur.execute(sql)
-###	conn.commit()
+sql = "UPDATE bike_route SET avg_duration_mn = round(ST_Length(ST_Transform(the_geom,3111))/(15000/60))+2"
+print sql
+cur.execute(sql)
+conn.commit()
 
 ### Query to add the reverse routes (assumption: B->A use the same route as A->B)
 ### insert into bike_route (o_station,d_station,the_geom,avg_duration_mn)
