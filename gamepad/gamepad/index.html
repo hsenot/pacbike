@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="../assets/css/gamepad.css" type="text/css" />
+</head>
+<body>
+
+<div id="container" class="group">
+
+<div id="blockButtons">
+
+  <p id="siteName"><img src="../assets/css/img/siteName.png" alt="jsdo.it" width="61" height="23" /></p>
+
+  <div id="stickArea">
+    <div id="stick" class="touchButton"></div>
+  </div>
+
+  <div id="ABbuttonArea">
+    <div id="Abutton" class="touchButton"></div>
+    <div id="Bbutton" class="touchButton"></div>
+  </div>
+
+  <div id="startButton" class="touchButton"></div> 
+
+</div>
+
+<div id="blockFailure" class="blockMessage" style="display: none">
+  <div class="blockInnr">
+    <p>Error! Connection Failure.</p>
+  </div>
+</div>
+
+
+<div id="blockError" class="blockMessage" style="display: none">
+  <div class="blockInnr">
+    <p>Error! Connection Error.</p>
+  </div>
+</div>
+
+<div id="blockLoading" class="blockMessage" style="display: none">
+  <div class="blockInnr">
+    <p>Creating Connection</p>
+  </div>
+</div>
+
+</div> 
+
+<script src="../socket.io/socket.io.js"></script>
+<script src="../assets/js/libs/jquery-min.js"></script>
+<script type="text/javascript" src="../assets/js/gamepad.js"></script>
+</body>
+</html>
