@@ -1,55 +1,132 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-  <meta charset="UTF-8" />
-  <title></title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-  <link rel="stylesheet" href="../assets/css/gamepad.css" type="text/css" />
+    <title>JSNE Gamepad</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/> <!--320-->
+    <link type="text/css" rel="stylesheet" href="../assets/css/gamepad.css" />
+    <script src="http://code.jquery.com/jquery-2.0.3.min.js" type="text/javascript"></script>
+    <script src="../socket.io/socket.io.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    var url = 'http://192.168.1.7:8888';
+
+    var gamepad = {
+        socket: undefined,
+        playerId: 1,
+        commands: ['up', 'left', 'down', 'right', 'a', 'b', 'select', 'start'],
+        launch_fullscreen: function() {
+	        var element = document.documentElement;
+	        if(element.requestFullScreen) {
+	          element.requestFullScreen();
+	        } else if(element.mozRequestFullScreen) {
+	          element.mozRequestFullScreen();
+	        } else if(element.webkitRequestFullScreen) {
+	          element.webkitRequestFullScreen();
+	        }
+	      },
+        init: function() {
+            //if (this.webSocketTest()) {
+            if (true) {
+                //connect to socket io
+                this.socket = io.connect(url);
+
+                //button bindings
+                var that = this;
+
+                $(document).on('touchstart', '.button', function(evt){
+                    that._handleClick(evt.currentTarget.classList, 'keyDown');
+                });
+
+                $(document).on('touchend', '.button', function(evt){
+                   that._handleClick(evt.currentTarget.classList, 'keyUp');
+                });
+
+                $(document).on('touchcancel', '.button', function(evt){
+                   that._handleClick(evt.currentTarget.classList, 'keyUp');
+                });
+            }
+        },
+
+
+        _handleClick: function(element, mode){
+            for(com in this.commands){
+                if(element.contains(this.commands[com])) this._sendCommand(this.commands[com], mode);
+            }
+        },
+
+        _sendCommand: function(btn, evt) {
+            console.log("sending message");
+            var result = this.socket.emit('gamepad_message', {
+                playerId: this.playerId,
+                key: btn,
+                evt: evt
+            });
+        },
+
+
+        webSocketTest: function() {
+            if ("WebSocket" in window) {
+                return true;
+            } else {
+                // the browser doesn't support WebSockets
+                alert("WebSockets NOT supported in this Browser");
+                return false;
+            }
+        }
+    };
+
+    gamepad.init();
+
+    $( document ).on( 'click', '#player1', function () {
+       gamepad.playerId = 1;
+       $('.playerselect').css("display", "none");
+    });
+
+    $( document ).on( 'click', '#player2', function () {
+       gamepad.playerId = 2;
+       $('.playerselect').css("display", "none");
+    });
+    </script>
 </head>
+
 <body>
+    <div class="playerselect">
+        <div class="playerselect_buttons">
+            <button id="player1">Player 1</button><br>
+            <button id="player2">Player 2</button>
 
-<div id="container" class="group">
+        </div>
+        
+    </div>
+    <button onclick="this.style.display='none';gamepad.launch_fullscreen();">Fullscreen</button>
+    <div class="gamepad">
+        <div class="cross">
+            <div class="button up"></div>
+            <br>
+            <div class="button left"></div>
+            <div class="button right"></div>
+            <br>
+            <div class="button down"></div>
 
-<div id="blockButtons">
+        </div>
 
-  <p id="siteName"><img src="../assets/css/img/siteName.png" alt="jsdo.it" width="61" height="23" /></p>
+        <div class="startselect">
+            <div class="button start">Start</div>
+            <div class="button select">Select</div>
+        </div>
+        <div class="ab">
+            <div class="button a">A</div>
+            <div class="button b">B</div>
+        </div>
 
-  <div id="stickArea">
-    <div id="stick" class="touchButton"></div>
-  </div>
+    </div>
 
-  <div id="ABbuttonArea">
-    <div id="Abutton" class="touchButton"></div>
-    <div id="Bbutton" class="touchButton"></div>
-  </div>
+<script>
+		document.body.addEventListener('touchmove', function(event) {
+		    event.preventDefault();
+		}, false);
+</script>
 
-  <div id="startButton" class="touchButton"></div> 
-
-</div>
-
-<div id="blockFailure" class="blockMessage" style="display: none">
-  <div class="blockInnr">
-    <p>Error! Connection Failure.</p>
-  </div>
-</div>
-
-
-<div id="blockError" class="blockMessage" style="display: none">
-  <div class="blockInnr">
-    <p>Error! Connection Error.</p>
-  </div>
-</div>
-
-<div id="blockLoading" class="blockMessage" style="display: none">
-  <div class="blockInnr">
-    <p>Creating Connection</p>
-  </div>
-</div>
-
-</div> 
-
-<script src="../socket.io/socket.io.js"></script>
-<script src="../assets/js/libs/jquery-min.js"></script>
-<script type="text/javascript" src="../assets/js/gamepad.js"></script>
 </body>
+
 </html>
