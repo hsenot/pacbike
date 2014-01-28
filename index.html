@@ -40,39 +40,46 @@
             var socket = io.connect('http://localhost:8888');
             var eventLock = false;
             socket.on('gamepad', function (data) {
-                //console.log(JSON.stringify(data));
+                console.log(JSON.stringify(data));
                 if(!player[0].player.lock){
-                    if (data.spwr >= 90)
+                    if (data.go)
                     {
-                        console.log('Received gamepad data, angle:'+data.sdeg+' power:'+data.spwr);
-                        if(data.sdeg > 45 && data.sdeg < 135) {
+                        //console.log('Received gamepad data, direction:'+data.go);
+                        if(data.go == "right") {
                             $.gameQuery.keyTracker[68] = true;
-                       } 
-                        else if(data.sdeg > 225 && data.sdeg < 315) {
+                        } 
+                        else if(data.go == "left") {
                             $.gameQuery.keyTracker[65] = true;
                         }
-                        else if(data.sdeg <= 45 || data.sdeg >= 315) {
+                        else if(data.go == "up") {
                             $.gameQuery.keyTracker[87] = true;
                         }
-                        else if(data.sdeg >= 135 && data.sdeg <= 225) {
+                        else if(data.go == "down") {
                             $.gameQuery.keyTracker[83] = true;
                         }
                     }
                 }
 
-                if(data.spwr < 90) {
-                    console.log('Halting: angle:'+data.sdeg+' power:'+data.spwr);
-                  //player[0].player.halt();
-                  $.gameQuery.keyTracker[65] = false;
-                  $.gameQuery.keyTracker[68] = false;
-                  $.gameQuery.keyTracker[87] = false;
-                  $.gameQuery.keyTracker[83] = false;
+                if(data.stop) {
+                    //console.log('Halting: '+data.stop);
+                    //if(data.stop == "right") {
+                        $.gameQuery.keyTracker[68] = false;
+                    //} 
+                    //else if(data.stop == "left") {
+                        $.gameQuery.keyTracker[65] = false;
+                    //}
+                    //else if(data.stop == "up") {
+                        $.gameQuery.keyTracker[87] = false;
+                    //}
+                    //else if(data.stop == "down") {
+                        $.gameQuery.keyTracker[83] = false;
+                    //}
                 }
 
             });
 
             socket.on('connect', function (data) {
-            //console.log(data);
+                //console.log(data);
             });
 
             // So that it fits on a 1280 pixels display: tileW=17,tileH=22
