@@ -1,159 +1,176 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <title>Control PacMan</title>
-        
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <link href="icon.png" rel="apple-touch-icon" /> 
+  <head>
+    <title>Bootstrap 101 Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
 
-        <style>
-            #c2canvasdiv {
-                width:320px;
-                height:320px;
-                margin:0 auto;
-                float:none;
-            }
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <style>
+    	#controlpad {
+    		position:absolute;
+    		bottom:20px;
+    		left:10%;
+    	}
 
-            #c2canvas {
-                position: absolute;
-                bottom: 0;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="wrapper">
-            <div style="text-align:center;">
-                Other links and info here
-            </div>
-            <div id="c2canvasdiv">
-                <!-- The canvas the project will render to.  If you change its ID, don't forget to change the
-                ID the runtime looks for in the jQuery events above (ready() and cr_sizeCanvas()). -->
-                <canvas id="c2canvas" width="320" height="320" bottom="0">
-                    <!-- This text is displayed if the visitor's browser does not support HTML5.
-                    You can change it, but it is a good idea to link to a description of a browser
-                    and provide some links to download some popular HTML5-compatible browsers. -->
-                    <h1>Your browser does not appear to support HTML5.  Try upgrading your browser to the latest version.  <a href="http://www.whatbrowser.org">What is a browser?</a>
-                    <br/><br/><a href="http://www.microsoft.com/windows/internet-explorer/default.aspx">Microsoft Internet Explorer</a><br/>
-                    <a href="http://www.mozilla.com/firefox/">Mozilla Firefox</a><br/>
-                    <a href="http://www.google.com/chrome/">Google Chrome</a><br/>
-                    <a href="http://www.apple.com/safari/download/">Apple Safari</a><br/>
-                    <a href="http://www.google.com/chromeframe">Google Chrome Frame for Internet Explorer</a><br/></h1>
-                </canvas>            
-            </div>
+    	#mytable{
+
+    	}
+
+    	.bordered{
+    		border: 1px solid black;
+    	}
+
+    	td {
+    		height:20px;
+    		width:20px;
+    		text-align:center; 		
+    	}
+
+    	td.direction{
+    		height:80px;
+    		width:80px;
+    	}
+
+    </style>
+  </head>
+  <body>
+    <div id="wrapper">
+        <div style="text-align:center;padding:10px;">
+        	<div style="width:300px;margin:0 auto; float:none;padding:10px;">
+	            <button type="button" class="btn btn-danger btn-lg pull-left">Start</button>
+	            <button type="button" class="btn btn-danger btn-lg pull-right">Select</button>
+	        </div>
+            <br>
+            <br>
+            Other links and info here; the queue status for instance, or a form to enter name for high score.
+            <br>
+            <br>
         </div>
+        <div id="controlpad">
+  			<table class="mytable">
+  				<tbody>
+	  				<tr>
+	  					<td></td>
+	  					<td></td>
+	  					<td id="cell-up" class="bordered direction"><img src="../assets/img/arrow_up.png" height=80></td>
+	  					<td></td>
+	  					<td></td>
+	  				</tr>
+	  				<tr>
+	  					<td></td>
+	  					<td></td>
+	  					<td></td>
+	  					<td></td>
+	  					<td></td>
+	  				</tr>
+	  				<tr>
+	  					<td id="cell-left" class="bordered direction"><img src="../assets/img/arrow_left.png" width=80></td>
+	  					<td></td>
+	  					<td></td>
+	  					<td></td>
+	  					<td id="cell-right" class="bordered direction"><img src="../assets/img/arrow_right.png" width=80></td>
+	  				</tr>
+	  				<tr>
+	  					<td></td>
+	  					<td></td>
+	  					<td></td>
+	  					<td></td>
+	  					<td></td>
+	  				</tr>
+	  				<tr>
+	  					<td></td>
+	  					<td></td>
+	  					<td id="cell-down" class="bordered direction"><img src="../assets/img/arrow_down.png" height=80></td>
+	  					<td></td>
+	  					<td></td>
+	  				</tr>
+	  			</tbody>
+  			</table>
+        </div>
+    </div>
 
-        <script language="JavaScript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
-        <script language="JavaScript" type="text/javascript" src="../assets/js/libs/gamecontroller.js"></script>
-        <script src="../socket.io/socket.io.js"></script>
-        <script>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="../assets/js/jquery-min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../socket.io/socket.io.js"></script>
+	<script type="text/javascript" src="https://raw.github.com/pisi/Longclick/master/jquery.longclick-min.js"></script>
 
-            var webSocket;
+    <script>
 
-            var server_ip = "192.168.1.7:8888";
+        var webSocket;
+        var server_ip = "192.168.1.7:8888";
 
-            $(window).on("load",function(){
+        $(window).on("load",function(){
 
-                function webSocketSend (cmd) {
-                    webSocket.emit("gamepad", cmd);
-                };
+            function webSocketSend (cmd) {
+                webSocket.emit("gamepad", cmd);
+            };
 
-                function initControl() {
+            $("img").bind("contextmenu",function(e) {
+				return false;
+			});
 
-                    var options = {
-                        touchRadius: 100,
-                        left:{
-                            position:{
-                                left: '50%',
-                                bottom: '50%'
-                            },
-                            dpad: { 
-                                up: {
-                                    opacity: 1,
-                                    stroke: 20,
-                                    width: '20%', 
-                                    height: '30%' ,
-                                    touchStart: function(){
-                                        // Send an up event
-                                        webSocketSend({"stop":"previous"});
-                                        webSocketSend({"go":"up"});
-                                    },
-                                    touchEnd: function(){
-                                        webSocketSend({"stop":"up"});
-                                    }
-                                }, 
-                                down: {
-                                    stroke: 20,
-                                    width: '20%', 
-                                    height: '30%',
-                                    touchStart: function(){
-                                        // Send an up event
-                                        webSocketSend({"stop":"previous"});
-                                        webSocketSend({"go":"down"});
-                                    },
-                                    touchEnd: function(){
-                                        webSocketSend({"stop":"down"});
-                                    }   
-                                }, 
-                                left: {
-                                    stroke: 20,
-                                    width: '30%', 
-                                    height: '20%',
-                                    touchStart: function(){
-                                        // Send an up event
-                                        webSocketSend({"stop":"previous"});
-                                        webSocketSend({"go":"left"});
-                                    },
-                                    touchEnd: function(){
-                                        webSocketSend({"stop":"left"});
-                                    }                                    
-                                 }, 
-                                right: {
-                                    stroke: 20,
-                                    width: '30%', 
-                                    height: '20%',
-                                    touchStart: function(){
-                                        // Send an up event
-                                        webSocketSend({"stop":"previous"});
-                                        webSocketSend({"go":"right"});
-                                    },
-                                    touchEnd: function(){
-                                        webSocketSend({"stop":"right"});
-                                    }
-                                } 
-                            }
-                        },
-                        right:{
-                            type: 'buttons',
-                            buttons:[false,false,false,false]
-                        }
-                    };
-                    GameController.init( options );
+            function initControl() {
 
-                    // Small adjustemet for iPhone:
-                    //document.ontouchmove = function(e) {e.preventDefault()}; // disable scrolling
-                    //setTimeout(function() { window.scrollTo(0, 1) }, 100); // hide the address bar;
-                };
+            	$('#cell-left').bind('touchstart',function(){
+                    webSocketSend({"stop":"previous"});
+                    webSocketSend({"go":"left"});
+            	});
+            	$('#cell-left').bind('touchend',function(){
+                    webSocketSend({"stop":"left"});
+            	});
 
-                function webSocketInitialize() {
-                    
-                    webSocket = io.connect(server_ip);
+            	$('#cell-right').bind('touchstart',function(){
+                    webSocketSend({"stop":"previous"});
+                    webSocketSend({"go":"right"});
+            	});
+            	$('#cell-right').bind('touchend',function(){
+                    webSocketSend({"stop":"right"});
+            	});
 
-                    webSocket.emit('gamepad', 'gamepad connected');
+            	$('#cell-up').bind('touchstart',function(){
+                    webSocketSend({"stop":"previous"});
+                    webSocketSend({"go":"up"});
+            	});
+            	$('#cell-up').bind('touchend',function(){
+                    webSocketSend({"stop":"up"});
+            	});
 
-                    if(typeof webSocket !== "undefined")
-                    {
-                        initControl();
-                    }
+            	$('#cell-down').bind('touchstart',function(){
+                    webSocketSend({"stop":"previous"});
+                    webSocketSend({"go":"down"});
+            	});
+            	$('#cell-down').bind('touchend',function(){
+                    webSocketSend({"stop":"down"});
+            	});
 
-                };
+            };
 
-                webSocketInitialize();
+            function webSocketInitialize() {
+                
+                webSocket = io.connect(server_ip);
 
-            });
+                webSocket.emit('gamepad', 'gamepad connected');
 
-        </script>
-    </body>
+                if(typeof webSocket !== "undefined")
+                {
+                    initControl();
+                }
+
+            };
+
+            webSocketInitialize();
+
+        });
+
+    </script>
+  </body>
 </html>
