@@ -31,7 +31,7 @@
 
         <input id="keyEvt" type="text" style="display:hidden;">
 
-        <script language="JavaScript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+        <script language="JavaScript" type="text/javascript" src="gamepad/assets/js/jquery-min.js"></script>
         <script language="JavaScript" type="text/javascript" src="jquery.gamequery-0.7.1.js"></script>
         <script src="GSAP/src/minified/TweenMax.min.js"></script>
         <script src="GSAP/src/minified/jquery.gsap.min.js"></script>
@@ -83,7 +83,8 @@
             });
 
             // So that it fits on a 1280 pixels display: tileW=17,tileH=22
-            var tileW = 30;
+            // Fit the projector: tileW=26,tileH=30
+            var tileW = 26;
             // Height is less of a constraint at this stage
             var tileH = 30;
             var ghostRoutes, lastGhostIdx=0, ghostAnimArr;
@@ -91,7 +92,7 @@
 
             var REFRESH_RATE = 30;
             // Number of minutes a refresh is representing (timer increment)
-            var SIMULATED_TIME_RATE = 1;
+            var SIMULATED_TIME_RATE = 0.5;
             // Initial timer value
             var timer = 0;
 
@@ -103,11 +104,11 @@
             var SPEEDY = tileH;
             // Duration (in ms) to get to the next tile
             // for the player
-            var STEP_SPEEDX = 150;
-            var STEP_SPEEDY = 150;
+            var STEP_SPEEDX = 200;
+            var STEP_SPEEDY = 200;
             // for the ghosts
-            var GHOST_STEP_SPEEDX = 120;
-            var GHOST_STEP_SPEEDY = 100;
+            var GHOST_STEP_SPEEDX = 200;
+            var GHOST_STEP_SPEEDY = 200;
 
             // Generated with gQ's Tiles map editor
             // http://gamequeryjs.com/tools/tilemapeditor/
@@ -191,7 +192,7 @@
 
             //
             var plotXFromTile = function(colX){
-                var pixel_x = (parseInt(colX)+1)*tileW+2;
+                var pixel_x = (parseInt(colX)+1)*tileW;
                 return pixel_x;
             }
 
@@ -213,7 +214,7 @@
                     var fts = ghostRoutes[0].s;
                     dt = new Date(fts.substring(0,4),fts.substring(5,7),fts.substring(8,10),fts.substring(11,13),fts.substring(14,16),fts.substring(17,19));
                 }
-                // Applying the offset
+                // Applying the offset (needs to be an integer - should we cater for decimal minutes i.e. seconds? yes)
                 dt.setMinutes(dt.getMinutes()+offsetInMn);
 
                 // Displaying it
