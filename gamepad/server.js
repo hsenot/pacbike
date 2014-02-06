@@ -1,7 +1,7 @@
 var express = require('express'),
     app = express()
   , http = require('http')
-  , server = app.listen(8888)
+  , server = app.listen(443)
   , io = require('socket.io').listen(server);
 
 app.use('/assets', express.static(__dirname + '/assets'));
