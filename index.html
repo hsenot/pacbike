@@ -35,9 +35,11 @@
         <script language="JavaScript" type="text/javascript" src="jquery.gamequery-0.7.1.js"></script>
         <script src="GSAP/src/minified/TweenMax.min.js"></script>
         <script src="GSAP/src/minified/jquery.gsap.min.js"></script>
-        <script src="http://localhost:8888/socket.io/socket.io.js"></script>
+        <script src="http://103.29.64.40:8888/socket.io/socket.io.js"></script>
         <script>
-            var socket = io.connect('http://localhost:8888');
+            // Node running on Orion server
+            var socket = io.connect('http://103.29.64.40:8888');
+            //var socket = io.connect('http://localhost:8888');
             var eventLock = false;
             socket.on('gamepad', function (data) {
                 console.log(JSON.stringify(data));
