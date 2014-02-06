@@ -180,8 +180,13 @@
             var PLAYGROUND_HEIGHT   = tileNbY * tileH;
 
             // Let the game begin!
-            var pacman = new $.gameQuery.Animation({imageURL: "images/pacman-small.png"});
-
+            var pacman = new $.gameQuery.Animation({
+                imageURL: "images/pacman_down_ss.png",
+		numberOfFrame: 9,
+		delta: 27,
+                rate: 90,
+                type: $.gameQuery.ANIMATION_HORIZONTAL
+            });
 
             // My own wall collision detection function
             var collisionDetect = function(x,y,animationCode){
