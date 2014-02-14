@@ -64,9 +64,37 @@ for row in rows:
 			current_event_route["l"] = str(row2[0])
 			current_event_route["o"] = str(int(row[2]))
 
-			# Putting this object into the larger dictionary of routed events
-			all_events[event_ct] = current_event_route
-			event_ct += 1
+			# Testing if all steps of the route correspond to either:
+			# - an horizontal move
+			# - a vertical move
+			# Flags the routes that do not!
+			first = True
+			continuousFlag = True
+			previousStp = ""
+			for stp in current_event_route["l"].split(","):
+				if first:
+					previousStp = stp
+					first = False
+					continue
+				else:
+					#print "stp:"+stp
+					(x1,y1) = stp.split("X")
+					(x2,y2) = previousStp.split("X")
+
+					if abs(int(x1)-int(x2))+abs(int(y1)-int(y2))>1:
+						print "The route "+str(row[0])+" seem to be discontinuous between "+x1+"X"+y1+" and "+x2+"X"+y2+". Not exporting it to JSON."
+						continuousFlag = False
+						break
+					else:
+						pass
+					previousStp = stp
+
+			if continuousFlag:
+				# The route is continuous, putting the object into the larger dictionary of routed events
+				all_events[event_ct] = current_event_route
+				event_ct += 1
+
+
 
 # When all routed events added to the dictionary, we export it as JSON
 json_str = json.dumps(all_events, sort_keys=True, indent=4, separators=(',', ': '))
