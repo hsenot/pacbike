@@ -41,12 +41,15 @@
             Ghosts:<div id="currentGhostNb" style="display:inline-block;">0</div>
         </div>
 
-        <div id="playground">
+        <div id="playground" style="background:url('images/grid-qgis.png');background-size:1898px 960px;">
+    
             <div id ="splash">
                 <a id="start">Start</a>
                 <div id="loadbar" style="background: 000; height: 32px; overflow: visible;"><span id="loadtext" style="color: red"></span></div>
             </div>
+   
         </div>
+
 
         <div id="connectHere" style="margin-bottom:5px;margin-top:5px;">
             <span class="label label-success">1</span> Connect to <img src="images/free_wifi_hotspot-cropped.png" height="50px"/> network PACBIKE   
@@ -162,11 +165,11 @@
             var animations = [];
             // Laneways
             animations[0] =  new $.gameQuery.Animation({
-                imageURL:'http://placehold.it/'+tileW+'x'+tileH+'/0B173B&text=.'
+                imageURL:     'images/none.png'
             });
             // Buildings
             animations[1] =  new $.gameQuery.Animation({
-                imageURL:      'http://placehold.it/'+tileW+'x'+tileH+'/0000FF&text=.'
+                imageURL:      'images/none.png'
             });
             // Main arteries
             animations[2] =  new $.gameQuery.Animation({
@@ -462,7 +465,7 @@
                 };
                 
                 var releaseGhosts = function(currentTimer){
-                    if (lastGhostIdx >= ghostRoutes.length)
+                    if (lastGhostIdx == ghostRoutes.length - 1)
                     {
                         alert("All ghosts have been released!");
                     }
