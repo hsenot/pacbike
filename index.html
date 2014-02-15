@@ -138,7 +138,7 @@
 
             var REFRESH_RATE = 30;
             // Number of minutes a refresh is representing (timer increment)
-            var SIMULATED_TIME_RATE = 1;
+            var SIMULATED_TIME_RATE = 0.5;
             // Initial timer value
             var timer = 0;
 
@@ -280,7 +280,15 @@
                     dt = new Date(fts.substring(0,4),fts.substring(5,7),fts.substring(8,10),fts.substring(11,13),fts.substring(14,16),fts.substring(17,19));
                 }
                 // Applying the offset (needs to be an integer - should we cater for decimal minutes i.e. seconds? yes)
-                dt.setMinutes(dt.getMinutes()+offsetInMn);
+                if (offsetInMn % 1 !== 0)
+                {
+                    offsetInS = parseInt(Math.round(offsetInMn*60));
+                    dt.setSeconds(dt.getSeconds()+offsetInS);
+                }
+                else
+                {
+                    dt.setMinutes(dt.getMinutes()+offsetInMn);
+                }
 
                 // Displaying it
                 var minutesStr = dt.getMinutes();
