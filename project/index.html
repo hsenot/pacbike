@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+    <head>
+        <title>PacBike</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        <style>
+            @font-face {
+                font-family: PressStart2P;
+                src: url('fonts/PressStart2P.ttf');
+            }
+             
+            html, body{
+                font-family: PressStart2P;
+                font-size: 15px;
+                background-color: black;
+                color: yellow;
+                text-align: center;
+            }
+
+            .panel-body{
+                background-color: black;
+                color: yellow;
+                text-align: justify;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="panel-group" id="accordion">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                  The PacBike project
+                </a>
+              </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+              <div class="panel-body">
+                The PacBike project is an interactive visualisation of the Melbourne Bike Share scheme. The PacMan board is the Melbourne CBD, as designed by Robert Hoddle in the 1830s, with its arterial roads and laneways. Each ghost is a user of the Melbourne Bike Share scheme, and PacMan is ... well, PacMan - looking for coffee and other healthy food within the CBD. 
+                <br><br>The visualisation retraces all trips taken on the Bike Share scheme during the first fortnight of February 2014. A timer allows to track when these trips occurred, and observe the patterns of cycling movements across the day. Green ghosts are short trips (less than 20mn), orange ghosts medium trips (between 20 and 40mn), and red ghosts longer trips. 
+                <br><br>There is the odd cyclist, looking to get back home at 3am. But then, around 7.30am, the dance of cyclists moving into the CBD starts again.
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                  Why this project?
+                </a>
+              </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse">
+              <div class="panel-body">
+                The main ideas behind the visualisation were:
+                <ul>
+                    <li>getting a visual understanding of the flow of cyclists within the CBD,</li>  
+                    <li>providing a game-like experience around the Bike Share scheme,</li>  
+                    <li>putting the visualisation in the public sphere to start a conversation on the adequacy of the scheme and the underlying cycle infrastructure,</li>
+                    <li>being a fun challenge to undertake, and potentially entertaining for White Night patrons!</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                  What was involved?
+                </a>
+              </h4>
+            </div>
+            <div id="collapseThree" class="panel-collapse collapse">
+              <div class="panel-body">
+                The project involved a number of challenges along the way:
+                <ul>
+                    <li>collecting the data: every minute, the Melbourne Bike Scheme server was sampled to retrieve the current state (empty and busy docks) across the bike share scheme,</li>
+                    <li>modelling the trips: given that bike trips are not identified (we don't know where a bike arriving at a station has come from), a model of possible origin/destination was built, based on the estimated time trip and the popularity of a station as a destination,</li> 
+                    <li>geocoding the trips: each origin/destination was subsequently submitted to a routing engine (MapQuest) to obtain the most probable cycling route between origin and destination,</li>
+                    <li>visualising trips on the PacMan board: trips were remapped to a simplified, well-oriented version of the CBD (the Hoddle grid is rotated 20 degrees from full North),</li>
+                    <li>interacting with PacMan: a small, captive Wifi network was setup to reduce the latency of interactions from a mobile phone.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+                  Credits
+                </a>
+              </h4>
+            </div>
+            <div id="collapseFour" class="panel-collapse collapse">
+              <div class="panel-body">
+                The various components of the project, with their source:
+                <ul>
+                    <li>street network: Victorian government data catalogue (http://www.data.vic.gov.au/),</li>
+                    <li>station data (location and status): Melbourne Bike Share scheme website (http://www.melbournebikeshare.com.au/stationmap),</li>
+                    <li>various icons &amp; clipart: openclipart.org,</li>
+                    <li>PacMan sprite sheet: Scratch programming environment (MIT),</li>
+                    <li>the PressStart2P font: openfontlibrary.org,</li>
+                </ul>
+                <br>
+                Software tools used:
+                <ul>
+                    <li>Javascript libraries (jQuery, Bootstrap, gameQuery, GSAP),</li>
+                    <li>PHP (polyline decoding),</li>
+                    <li>Python (various data processing),</li>
+                    <li>PostgreSQL/PostGIS (spatial functions),</li>
+                    <li>Quantum GIS (desktop map editing)</li>
+                    <li>MapQuest Directions API, itself based on OpenStreetMap data (trips routing),</li>
+                </ul>
+                <br>Original idea, and implementation by Herve Senot (RMIT student in <i>Sustainable Energy Systems</i>)
+                <br>Website: http://carbongis.com.au
+                <br>Contact: hsenot@gmail.com
+              </div>
+            </div>
+          </div>
+        </div>
+        <script language="JavaScript" type="text/javascript" src="../gamepad/assets/js/jquery-min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="../bootstrap/js/bootstrap.min.js"></script>
+
+        </script>
+    </body>
+</html>
