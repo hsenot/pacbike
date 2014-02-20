@@ -47,7 +47,7 @@ for row in rows:
 		cast((select count(id) from event e3 where e3.station_id=e2.station_id) as real)/cast((select count(id) from event e4 where departure=false) as real) as probability_to_arrive_there
 		from event e1,event e2 where e1.id="""+str(row[0])+"""
 		and e2.departure=false and e2.station_id <> e1.station_id and e2.at > e1.at and e2.at-e1.at < interval '2 hours'
-		--order by event_delta_duration
+		order by event_delta_duration
 		) t 
 		) s where heuristic is not null order by heuristic desc limit 1
 	"""

@@ -16,6 +16,7 @@
         body, html, a {
             -webkit-user-select: none !important;
             -webkit-touch-callout: none !important;
+            background-color:black;
         }
 
     	#controlpad {
@@ -26,7 +27,7 @@
     	}
 
     	.bordered{
-    		border: 1px solid black;
+    		border: 1px solid grey;
     	}
 
     	td {
@@ -45,9 +46,9 @@
   <body>
     <div id="wrapper">
         <div style="text-align:center;padding:10px;">
-        	<div style="width:300px;margin:0 auto; float:none;padding:10px;">
-	            <button type="button" class="btn btn-danger btn-lg">Project info</button>
-	        </div>
+            <div style="width:300px;margin:0 auto; float:none;padding:10px;">
+                <button id="aboutProject" type="button" class="btn btn-lg">About the project</button>
+            </div>
         </div>
         <div id="controlpad">
   			<table style="position:absolute;width:300px;bottom:30px;">
@@ -123,6 +124,10 @@
             $("img").bind("contextmenu",function(e) {
 				return false;
 			});
+
+            $('#aboutProject').click(function(){
+                window.location="http://192.168.2.128:8080/pacbike/project";
+            })
 
             function initControl() {
 

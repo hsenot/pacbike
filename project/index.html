@@ -48,7 +48,7 @@
               <div class="panel-body">
                 The PacBike project is an interactive visualisation of the Melbourne Bike Share scheme. The PacMan board is the Melbourne CBD, as designed by Robert Hoddle in the 1830s, with its arterial roads and laneways. Each ghost is a user of the Melbourne Bike Share scheme, and PacMan is ... well, PacMan - looking for coffee and other healthy food within the CBD. 
                 <br><br>The visualisation retraces all trips taken on the Bike Share scheme during the first fortnight of February 2014. A timer allows to track when these trips occurred, and observe the patterns of cycling movements across the day. Green ghosts are short trips (less than 20mn), orange ghosts medium trips (between 20 and 40mn), and red ghosts longer trips. 
-                <br><br>There is the odd cyclist, looking to get back home at 3am. But then, around 7.30am, the dance of cyclists moving into the CBD starts again.
+                <br><br>There is the odd cyclist, looking to get back home at 3am. But then, around 7am, the dance of cyclists across the CBD starts again.
               </div>
             </div>
           </div>
@@ -96,6 +96,30 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
+                  Control PacMan
+                </a>
+              </h4>
+            </div>
+            <div id="collapseFive" class="panel-collapse collapse">
+              <div class="panel-body">
+                You can play PacMan by collecting food along the CBD arterials. Coffee is especially valuable.
+                <br>
+                You are PacMan:
+                <img src="../images/pm-idle.png">
+                <br>
+                <div style="text-align:center;padding:10px;">
+                    <div style="width:300px;margin:0 auto; float:none;padding:10px;">
+                        <button id="controlPacman" type="button" class="btn btn-lg">Play!</button>
+                    </div>
+                </div>            
+                <br>                
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
                   Credits
                 </a>
@@ -121,8 +145,8 @@
                     <li>Quantum GIS (desktop map editing)</li>
                     <li>MapQuest Directions API, itself based on OpenStreetMap data (trips routing),</li>
                 </ul>
-                <br>Original idea, and implementation by Herve Senot (RMIT student in <i>Sustainable Energy Systems</i>)
-                <br>Website: http://carbongis.com.au
+                <br>Work by Herve Senot (RMIT student in <i>Sustainable Energy Systems</i>)
+                <br>Website: http://www.carbongis.com.au
                 <br>Contact: hsenot@gmail.com
               </div>
             </div>
@@ -131,7 +155,12 @@
         <script language="JavaScript" type="text/javascript" src="../gamepad/assets/js/jquery-min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="../bootstrap/js/bootstrap.min.js"></script>
-
+        <script>
+          $(window).load(function(){
+            $('#controlPacman').click(function(){
+              window.location="http://192.168.2.128:8888/gamepad/";
+            });
+          });
         </script>
     </body>
 </html>

@@ -51,27 +51,27 @@
    
         </div>
 
-        <div id="connectHere" style="margin-bottom:5px;margin-top:5px;">
-            <p style="margin-left:100px;margin-right:100px;width:150px;display:inline-block;vertical-align:top;">
+        <div id="connectHere" style="margin-bottom:5px;margin-top:15px;">
+            <div style="margin-left:50px;margin-right:50px;width:250px;display:inline-block;vertical-align:top;">
                 <span class="label label-success">Step 1</span>
-                <br>Connect to <img src="images/free_wifi_hotspot-cropped.png" height="50px"/> network PACBIKE
-            </p>
-            <div style="margin-left:50px;width:350px;display:inline-block;">
-                <div style="display:inline-block;width:150px;vertical-align:top;">
+                <br><p style="margin-top:15px;">Connect to Wifi network <b>PACBIKE</b></p>
+            </div>
+            <div style="margin-left:50px;width:450px;display:inline-block;">
+                <div style="display:inline-block;width:270px;vertical-align:top;">
                     <span class="label label-success">Step 2</span>
-                   <br>Read what the PacBike project is about:
+                    <br><p style="margin-top:15px;">Read what the PacBike project is about:</p>
                 </div>
-                <div style="display:inline-block;width:155px;">
-                    <img style="vertical-align:bottom;" src="images/qrcode-project.png" height="150px"/>
+                <div style="display:inline-block;width:105px;">
+                    <img style="vertical-align:bottom;" src="images/qrcode-project.png" height="100px"/>
                 </div>
             </div>
-            <div style="margin-left:50px;width:350px;display:inline-block;">
-                <div style="display:inline-block;width:150px;vertical-align:top;">
+            <div style="margin-left:50px;width:450px;display:inline-block;">
+                <div style="display:inline-block;width:270px;vertical-align:top;">
                     <span class="label label-success">Step 3</span>
-                   <br>Control PacMan:
+                    <br><p style="margin-top:15px;">Control PacMan:</p>
                 </div>
-                <div style="display:inline-block;width:155px;">
-                    <img style="vertical-align:bottom;" src="images/qrcode-gamepad.png" height="150px"/>
+                <div style="display:inline-block;width:105px;">
+                    <img style="vertical-align:bottom;" src="images/qrcode-gamepad.png" height="100px"/>
                 </div>
             </div>
         </div>
@@ -641,7 +641,7 @@
                     }
 
                     this.moveTo = function(newx,newy){
-                        //console.log('Moving from:'+this.node.x()+','+this.node.y()+' to '+newx+','+newy);
+                        console.log('Moving from:'+this.node.x()+','+this.node.y()+' to '+newx+','+newy);
 
                         if(newx > 0 && newx <= PLAYGROUND_WIDTH && newx != this.node.x()){
                             if (!player.collision('#tilemap,#tilemap div.obstacle',{x:newx}).length)
@@ -690,6 +690,10 @@
                                 player[0].player.lock = false;
                                 //console.log('Can\'t move up/down due to tile:'+$('#player').collision('#tilemap,#tilemap div.gQ_tileType_1',{y:newy})[0].id);
                             }
+                        }
+                        else
+                        {
+                            player[0].player.lock = false;
                         }
                     }
 
