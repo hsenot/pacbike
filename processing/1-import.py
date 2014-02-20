@@ -4,7 +4,7 @@ import json
 from pprint import pprint
 
 # Path to JSON files to import
-fp = "../json/20140108"
+fp = "../json/201402"
 
 # Database connection settings
 db_name = "pacbike"
@@ -26,7 +26,7 @@ cur = conn.cursor()
 
 # Looping through all JSON files within the directory
 for fn in os.listdir(fp):
-	if fn.endswith(".jsonew"):
+	if fn.endswith(".jsonfrw2r2w"):
 
 		# Reading the file into a string
 		with open(fp+os.sep+fn) as myfile:
@@ -37,7 +37,11 @@ for fn in os.listdir(fp):
 		json_data=json_data.replace("\\","")
 
 		# Getting the file into a string
-		data = json.loads(json_data)
+		try:
+			data = json.loads(json_data)
+		except:
+			print "Couldn't extract data from "+str(fn)
+			print "Data was: "+str(json_data)
 		#pprint(data)
 
 		# Extracting each top level JSON object and building a query with it
