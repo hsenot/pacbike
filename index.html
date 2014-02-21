@@ -199,7 +199,7 @@
             });
             // Main arteries
             animations[2] =  new $.gameQuery.Animation({
-                imageURL:      'http://placehold.it/'+tileW+'x'+tileH+'/000000&text=.'
+                imageURL:      'images/tiles/black.gif'
             });
             // Bike stations
             animations[3] =  new $.gameQuery.Animation({
@@ -207,14 +207,14 @@
             });
             // CBD entry points
             animations[4] =  new $.gameQuery.Animation({
-                imageURL:      'http://placehold.it/'+tileW+'x'+tileH+'/0B173B&text=.'
+                imageURL:      'images/tiles/blue-dark.gif'
             });
 
             // Street names - individual characters
             for (var k=65;k<=90;k++)
             {
                 animations[k-60] =  new $.gameQuery.Animation({
-                    imageURL:      'http://placehold.it/'+tileW+'x'+tileH+'/000000&text='+String.fromCharCode(k)
+                    imageURL:      'images/tiles/'+k+'.gif'
                 });                
             }
 
