@@ -421,6 +421,92 @@
             });
             */
 
+            function spawnFruit() {
+                // Positionning the pacgums
+                var pacgumArr = {
+                    "apple": {
+                        "animation":new $.gameQuery.Animation({imageURL: "images/apple-small.png"}),
+                        "width": 20,
+                        "height": 20,
+                        "pts": 10
+                    },
+                    "banana": {
+                        "animation":new $.gameQuery.Animation({imageURL: "images/banana-small.png"}),
+                        "width": 25,
+                        "height": 16,
+                        "pts": 20
+                    },
+                    "cherry": {
+                        "animation":new $.gameQuery.Animation({imageURL: "images/cherry-small.png"}),
+                        "width": 22,
+                        "height": 22,
+                        "pts": 30
+                    },
+                    "coffee": {
+                        "animation":new $.gameQuery.Animation({imageURL: "images/coffeecup-small.png"}),
+                        "width": 25,
+                        "height": 24,
+                        "pts": 100
+                    },
+                    "strawberry": {
+                        "animation":new $.gameQuery.Animation({imageURL: "images/strawberry-small.png"}),
+                        "width": 16,
+                        "height": 24,
+                        "pts": 40
+                    },
+                    "watermelon": {
+                        "animation":new $.gameQuery.Animation({imageURL: "images/watermelon-small.png"}),
+                        "width": 26,
+                        "height": 21,
+                        "pts": 50
+                    }
+                };
+
+                var pacgum;
+
+                for (var j=0; j < 15 ; j+=1)
+                {
+                    for (var i=0; i < 15 ; i+=1)
+                    {
+                        if ((map[j][i] == 3) && ((i+j)%8==0))
+                        {
+                            var r = Math.random();
+                            if (r<0.5)
+                            {
+                                pacgum = pacgumArr["cherry"];
+                            }
+                            else if (r<0.7)
+                            {
+                                pacgum = pacgumArr["strawberry"];
+                            }
+                            else if (r<0.8)
+                            {
+                                pacgum = pacgumArr["banana"];
+                            }
+                            else if (r<0.9)
+                            {
+                                pacgum = pacgumArr["watermelon"];
+                            }
+                            else if (r<=1.0)
+                            {
+                                pacgum = pacgumArr["coffee"];
+                            }
+
+                            // Width and height must be those of the image
+                            // Pox and posy must reflect the image size as well
+                            $("#pacgums").addSprite("pg-"+i+"_"+j+"X"+pacgum.pts, {
+                                animation: pacgum.animation,
+                                posx: (i+1/2)*tileW-pacgum.width/2, 
+                                posy: (j+1/2)*tileH-pacgum.height/2,
+                                width: pacgum.width,
+                                height: pacgum.height
+                            });
+
+                        }
+                    }
+                }
+            }
+
             // register the start button and remove the splash screen once the game is ready to starts
             $("#start").click(function(){
                 // Game initialisation routine
@@ -447,93 +533,10 @@
                         "red": new $.gameQuery.Animation({imageURL: "images/ghost-small-red.png"})
                     };
 
-                    // Positionning the pacgums
-                    var pacgumArr = {
-                        "apple": {
-                            "animation":new $.gameQuery.Animation({imageURL: "images/apple-small.png"}),
-                            "width": 20,
-                            "height": 20,
-                            "pts": 10
-                        },
-                        "banana": {
-                            "animation":new $.gameQuery.Animation({imageURL: "images/banana-small.png"}),
-                            "width": 25,
-                            "height": 16,
-                            "pts": 20
-                        },
-                        "cherry": {
-                            "animation":new $.gameQuery.Animation({imageURL: "images/cherry-small.png"}),
-                            "width": 22,
-                            "height": 22,
-                            "pts": 30
-                        },
-                        "coffee": {
-                            "animation":new $.gameQuery.Animation({imageURL: "images/coffeecup-small.png"}),
-                            "width": 25,
-                            "height": 24,
-                            "pts": 100
-                        },
-                        "strawberry": {
-                            "animation":new $.gameQuery.Animation({imageURL: "images/strawberry-small.png"}),
-                            "width": 16,
-                            "height": 24,
-                            "pts": 40
-                        },
-                        "watermelon": {
-                            "animation":new $.gameQuery.Animation({imageURL: "images/watermelon-small.png"}),
-                            "width": 26,
-                            "height": 21,
-                            "pts": 50
-                        }
-                    };
-
-                    var pacgum;
-
-                    for (var j=0; j < tileNbY ; j+=1)
-                    {
-                        for (var i=0; i < tileNbX ; i+=1)
-                        {
-                            if ((map[j][i] == 3) && ((i+j)%8==0))
-                            {
-                                var r = Math.random();
-                                if (r<0.5)
-                                {
-                                    pacgum = pacgumArr["cherry"];
-                                }
-                                else if (r<0.7)
-                                {
-                                    pacgum = pacgumArr["strawberry"];
-                                }
-                                else if (r<0.8)
-                                {
-                                    pacgum = pacgumArr["banana"];
-                                }
-                                else if (r<0.9)
-                                {
-                                    pacgum = pacgumArr["watermelon"];
-                                }
-                                else if (r<=1.0)
-                                {
-                                    pacgum = pacgumArr["coffee"];
-                                }
-
-                                // Width and height must be those of the image
-                                // Pox and posy must reflect the image size as well
-                                $("#pacgums").addSprite("pg-"+i+"_"+j+"X"+pacgum.pts, {
-                                    animation: pacgum.animation,
-                                    posx: (i+1/2)*tileW-pacgum.width/2, 
-                                    posy: (j+1/2)*tileH-pacgum.height/2,
-                                    width: pacgum.width,
-                                    height: pacgum.height
-                                });
-
-                            }
-                        }
-                    }
+                    spawnFruit();
 
                     $("#player")[0].player = new Player($("#player"));
                     player = $("#player");
-
 
                     // Assigning a collision class to all tiles that can be walked on:
                     // Walls
@@ -818,6 +821,13 @@
                                 var ptsToAdd = parseInt(pacgum.id.split("X")[1]);
                                 // Updating the score as well
                                 player[0].player.addPoints(ptsToAdd);
+
+                                // Checking if the board still has fruit
+                                if ($('#pacgums')[0].children.length == 0)
+                                {
+                                    // Re-spawn fruit
+                                    spawnFruit();
+                                }
                             });
                         }
 
