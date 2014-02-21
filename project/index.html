@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <title>PacBike</title>
+        <title>PacBike Project</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <!-- Bootstrap -->
@@ -14,11 +14,7 @@
         <![endif]-->
 
         <style>
-            @font-face {
-                font-family: PressStart2P;
-                src: url('fonts/PressStart2P.ttf');
-            }
-             
+          
             html, body{
                 font-family: PressStart2P;
                 font-size: 15px;
@@ -39,15 +35,42 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                  The PacBike project
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
+                  Control PacMan
                 </a>
               </h4>
             </div>
-            <div id="collapseOne" class="panel-collapse collapse in">
+            <div id="collapseFive" class="panel-collapse collapse in">
               <div class="panel-body">
-                The PacBike project is an interactive visualisation of the Melbourne Bike Share scheme. The PacMan board is the Melbourne CBD, as designed by Robert Hoddle in the 1830s, with its arterial roads and laneways. Each ghost is a user of the Melbourne Bike Share scheme, and PacMan is ... well, PacMan - looking for coffee and other healthy food within the CBD. 
-                <br><br>The visualisation retraces all trips taken on the Bike Share scheme during the first fortnight of February 2014. A timer allows to track when these trips occurred, and observe the patterns of cycling movements across the day. Green ghosts are short trips (less than 20mn), orange ghosts medium trips (between 20 and 40mn), and red ghosts longer trips. 
+                You can play PacMan by collecting food along the CBD arterials. Coffee is especially valuable.
+                <br>
+                Locate PacMan on the grid: <img src="../images/pm-idle.png"/>
+                <br>
+                <div style="text-align:center;padding:10px;">
+                  <button id="controlPacman" type="button" class="btn btn-default btn-lg">Play!</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                  About the project
+                </a>
+              </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse">
+              <div class="panel-body">
+                The PacBike project is an interactive visualisation of the Melbourne Bike Share scheme. The PacMan board is based the Melbourne CBD, as designed by Robert Hoddle in the 1830s, with its arterial roads and laneways. 
+                <br><br><img class="img-responsive img-rounded" src="../images/Hoddle_Map_1_1837.JPG">
+                <p style="text-align:center;"><small><i>Robert Hoddle's survey of the town of Melbourne in 1837 (Wikipedia)</i></small></p>
+                Each ghost is a cyclist taking a trip on the Melbourne Bike Share scheme, and PacMan is ... well, PacMan - looking for coffee and other healthy food within the CBD. 
+                <br><br>The visualisation retraces all trips taken on the Bike Share scheme during the first fortnight of February 2014. A timer allows to track when these trips occurred, and observe the patterns of cycling movements across the day. 
+                <br><br>Trips are colour-coded based on their duration: 
+                  <br><img src="../images/ghost-small-green.png"> are short trips (less than 20mn),
+                  <br><img src="../images/ghost-small-orange.png"> are medium trips (between 20 and 40mn),
+                  <br><img src="../images/ghost-small-red.png"> are longer trips. 
                 <br><br>There is the odd cyclist, looking to get back home at 3am. But then, around 7am, the dance of cyclists across the CBD starts again.
               </div>
             </div>
@@ -65,8 +88,8 @@
                 The main ideas behind the visualisation were:
                 <ul>
                     <li>getting a visual understanding of the flow of cyclists within the CBD,</li>  
-                    <li>providing a game-like experience around the Bike Share scheme,</li>  
                     <li>putting the visualisation in the public sphere to start a conversation on the adequacy of the scheme and the underlying cycle infrastructure,</li>
+                    <li>providing a game-like experience around the Bike Share scheme,</li>  
                     <li>being a fun challenge to undertake, and potentially entertaining for White Night patrons!</li>
                 </ul>
               </div>
@@ -84,36 +107,28 @@
               <div class="panel-body">
                 The project involved a number of challenges along the way:
                 <ul>
-                    <li>collecting the data: every minute, the Melbourne Bike Scheme server was sampled to retrieve the current state (empty and busy docks) across the bike share scheme,</li>
+                    <li>collecting the data: every minute, the Melbourne Bike Scheme server was sampled to retrieve the current state (empty and busy docks) across the bike share scheme,
+                      <pre>
+..,
+{
+  "id": "4",
+  "name": "Federation Square",
+  "lat": "-37.817523",
+  "long": "144.967814",
+  "public": "true",
+  "nbBikes": "21",
+  "nbEmptyDocks": "6"
+},
+..</pre>
+                    </li>
                     <li>modelling the trips: given that bike trips are not identified (we don't know where a bike arriving at a station has come from), a model of possible origin/destination was built, based on the estimated time trip and the popularity of a station as a destination,</li> 
                     <li>geocoding the trips: each origin/destination was subsequently submitted to a routing engine (MapQuest) to obtain the most probable cycling route between origin and destination,</li>
-                    <li>visualising trips on the PacMan board: trips were remapped to a simplified, well-oriented version of the CBD (the Hoddle grid is rotated 20 degrees from full North),</li>
+                      <img class="img-responsive img-rounded" src="../images/one-route.png">
+                    <li>visualising trips on the PacMan board: trips were remapped to a simplified, well-oriented version of the CBD (the Hoddle grid is rotated 20 degrees from full North),
+                      <img class="img-responsive img-rounded" src="../images/cbd-casement.png">
+                    </li>
                     <li>interacting with PacMan: a small, captive Wifi network was setup to reduce the latency of interactions from a mobile phone.</li>
                 </ul>
-              </div>
-            </div>
-          </div>
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
-                  Control PacMan
-                </a>
-              </h4>
-            </div>
-            <div id="collapseFive" class="panel-collapse collapse">
-              <div class="panel-body">
-                You can play PacMan by collecting food along the CBD arterials. Coffee is especially valuable.
-                <br>
-                You are PacMan:
-                <img src="../images/pm-idle.png">
-                <br>
-                <div style="text-align:center;padding:10px;">
-                    <div style="width:300px;margin:0 auto; float:none;padding:10px;">
-                        <button id="controlPacman" type="button" class="btn btn-lg">Play!</button>
-                    </div>
-                </div>            
-                <br>                
               </div>
             </div>
           </div>
@@ -152,7 +167,7 @@
             </div>
           </div>
         </div>
-        <script language="JavaScript" type="text/javascript" src="../gamepad/assets/js/jquery-min.js"></script>
+        <script src="../gamepad/assets/js/jquery-min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="../bootstrap/js/bootstrap.min.js"></script>
         <script>
