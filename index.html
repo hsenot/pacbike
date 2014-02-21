@@ -27,6 +27,10 @@
                 text-align: center;
             }
 
+            body {
+                opacity:0;
+            }
+
             .label {
                 margin: .5em .5em .3em .3em;
                 font-size:18px;
@@ -464,9 +468,9 @@
 
                 var pacgum;
 
-                for (var j=0; j < 15 ; j+=1)
+                for (var j=0; j < tileNbY ; j+=1)
                 {
-                    for (var i=0; i < 15 ; i+=1)
+                    for (var i=0; i < tileNbX ; i+=1)
                     {
                         if ((map[j][i] == 3) && ((i+j)%8==0))
                         {
@@ -554,7 +558,14 @@
                     {
                         // We've reached the end of the timer (+ 1 hour)
                         // We restart the board/game
-                        window.location="http://localhost:8080/pacbike";
+                        $('body').fadeTo(1000,0,function(){
+                            window.location="http://localhost:8080/pacbike";
+                        });
+                    }
+
+                    if (currentTimer >= 5 && currentTimer < 6)
+                    {
+                        $('body').fadeTo(1000,1);
                     }
 
                     // Releasing the ghosts
