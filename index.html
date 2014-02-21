@@ -155,7 +155,7 @@
             var tileW = 26;
             // Height is less of a constraint at this stage
             var tileH = 30;
-            var ghostRoutes, lastGhostIdx=0, ghostAnimArr;
+            var ghostRoutes, ghostRoutesLength, lastGhostIdx=0, ghostAnimArr;
             var GHOST_OPACITY_TRANSITION_MS = 1000;
 
             var REFRESH_RATE = 30;
@@ -414,11 +414,13 @@
 
             
             // configure the loading bar
+            /*
             $.loadCallback(function(percent){
                 $("#loadBar").width(400*percent);
                 $("#loadtext").html(""+percent+"%")
             });
-            
+            */
+
             // register the start button and remove the splash screen once the game is ready to starts
             $("#start").click(function(){
                 // Game initialisation routine
@@ -544,13 +546,16 @@
                 };
                 
                 var releaseGhosts = function(currentTimer){
-                    if (lastGhostIdx == ghostRoutes.length - 1)
+                    // Restart the board last ghost released + 1 hour
+                    if (parseInt(ghostRoutes[ghostRoutesLength-1].o) < currentTimer+60)
                     {
-                        alert("All ghosts have been released!");
+                        // We've reached the end of the timer (+ 1 hour)
+                        // We restart the board/game
+                        window.location="http://localhost:8080/pacbike";
                     }
 
                     // Releasing the ghosts
-                    for (var j=lastGhostIdx;j<Object.keys(ghostRoutes).length;j++)
+                    for (var j=lastGhostIdx;j<ghostRoutesLength;j++)
                     {
                         if (parseInt(ghostRoutes[j].o) < currentTimer)
                         {
@@ -597,6 +602,7 @@
                             console.log('Asset JSON file loaded: ' + Object.keys(json).length + ' events.');
                             // Global variable holding the routes
                             ghostRoutes = json;
+                            ghostRoutesLength = Object.keys(ghostRoutes).length;
                             // Game init routine
                             $.playground().startGame(gameInit);
                         }
@@ -869,6 +875,9 @@
 
                     }, REFRESH_RATE);
             });
+
+            $("#start").click();
+
         </script>
     </body>
 </html>
