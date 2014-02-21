@@ -322,12 +322,13 @@
             });
 
             // My own wall collision detection function
-            var collisionDetect = function(x,y,animationCode){
-                var cellx = Math.round(((x+PLAYGROUND_WIDTH/2)*tileNbX)/PLAYGROUND_WIDTH)-1;
-                var celly = Math.round(((y+PLAYGROUND_HEIGHT/2)*tileNbY)/PLAYGROUND_HEIGHT);
+            var collisionDetect = function(x,y){
+                var cellx = Math.round((x*tileNbX)/PLAYGROUND_WIDTH);
+                var celly = Math.round((y*tileNbY)/PLAYGROUND_HEIGHT);
                 // Mapping x and y to a map tile
-                console.log("Collision detection with ("+cellx+","+celly+"):"+(map[celly][cellx] == animationCode));
-                return map[celly][cellx] == animationCode;
+                //console.log("Collision detection with ("+cellx+","+celly+"):"+map[celly][cellx]);
+                // Obstacles are: 2(walls), 4(bike stations) and 5 (CBD gates)
+                return ([2,4,5].indexOf(map[celly][cellx])>-1);
             };
 
             //
@@ -428,15 +429,6 @@
                 // Centering the playground
                 .css({"position":"relative","margin":"0 auto"})
                 ;
-
-            
-            // configure the loading bar
-            /*
-            $.loadCallback(function(percent){
-                $("#loadBar").width(400*percent);
-                $("#loadtext").html(""+percent+"%")
-            });
-            */
 
             function spawnFruit() {
                 // Positionning the pacgums
@@ -554,14 +546,6 @@
 
                     $("#player")[0].player = new Player($("#player"));
                     player = $("#player");
-
-                    // Assigning a collision class to all tiles that can be walked on:
-                    // Walls
-                    $('.gQ_tileType_1').addClass("obstacle");
-                    // CBD entry points/exits
-                    $('.gQ_tileType_3').addClass("obstacle");
-                    // Bike stations
-                    $('.gQ_tileType_4').addClass("obstacle");
 
                 };
                 
@@ -682,7 +666,7 @@
                         console.log('Moving from:'+this.node.x()+','+this.node.y()+' to '+newx+','+newy);
 
                         if(newx > 0 && newx <= PLAYGROUND_WIDTH && newx != this.node.x()){
-                            if (!player.collision('#tilemap,#tilemap div.obstacle',{x:newx}).length)
+                            if (!collisionDetect(newx,newy))
                             {
                                 //console.log('Moving to tile:'+$('#player').collision('#tilemap,#tilemap div.gQ_tileType_2',{x:newx})[0].id+' ('+$('#player').collision('#tilemap,#tilemap div',{x:newx}).length+' tiles detected)');
 
@@ -706,7 +690,7 @@
                             }
                         }
                         else if (newy > 0 && newy <= PLAYGROUND_HEIGHT && newy != this.node.y()){
-                            if (!player.collision('#tilemap,#tilemap div.obstacle',{y:newy}).length)
+                            if (!collisionDetect(newx,newy))
                             {
                                 //console.log('Moving to tile:'+$('#player').collision('#tilemap,#tilemap div.gQ_tileType_2',{y:newy})[0].id+' ('+$('#player').collision('#tilemap,#tilemap div',{y:newy}).length+' tiles detected)');
 
