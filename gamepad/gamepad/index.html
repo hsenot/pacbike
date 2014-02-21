@@ -45,11 +45,6 @@
   </head>
   <body>
     <div id="wrapper">
-        <div style="text-align:center;padding:10px;">
-            <div style="margin:0 auto; float:none;padding:10px;">
-                <button id="aboutProject" type="button" class="btn btn-lg pull-right">About the project</button>
-            </div>
-        </div>
         <div id="controlpad">
   			<table style="position:absolute;width:300px;bottom:30px;">
   				<tbody>
@@ -111,7 +106,7 @@
         // Local network IP address (raspberry Pi)
         //var server_ip = "10.42.0.1:8888";
         // Local network IP address (router)
-        var server_ip = "192.168.2.128:8888";
+        var server_ip = "192.168.2.129:8888";
         // Orion Server IP address (port 443 because of RMIT's network)
         //var server_ip = "103.29.64.40:443";
 
@@ -120,14 +115,6 @@
             function webSocketSend (cmd) {
                 webSocket.emit("gamepad", cmd);
             };
-
-            $("img").bind("contextmenu",function(e) {
-				return false;
-			});
-
-            $('#aboutProject').click(function(){
-                window.location="http://192.168.2.128:8080/pacbike/project";
-            })
 
             function initControl() {
 

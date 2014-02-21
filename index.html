@@ -29,7 +29,7 @@
 
             body {
                 opacity:0;
-                overflow: auto;
+                overflow: hidden;
             }
 
             .label {
@@ -39,12 +39,9 @@
         </style>
     </head>
     <body>
-        <div id="other stuff" style="margin-bottom:5px;margin-top:5px;">
-            Info:<div id="currentInfo" style="display:inline-block;">0</div>
-            Score:<div id="currentScore" style="display:inline-block;">0</div>
-            Hi:<div id="highScore" style="display:inline-block;">0</div>
-            Date:<div id="currentDate" style="display:inline-block;"></div>
-            Time:<div id="currentTime" style="display:inline-block;"></div>
+        <div id="otherstuff" style="margin-bottom:5px;margin-top:5px;font-size:30px;">
+            <div id="currentDate" style="display:inline-block;"></div>
+            <div id="currentTime" style="display:inline-block;"></div>
             Ghosts:<div id="currentGhostNb" style="display:inline-block;">0</div>
         </div>
 
@@ -57,29 +54,9 @@
    
         </div>
 
-        <div id="connectHere" style="margin-bottom:5px;margin-top:15px;">
-            <div style="margin-left:50px;margin-right:50px;width:250px;display:inline-block;vertical-align:top;">
-                <span class="label label-success">Step 1</span>
-                <br><p style="margin-top:15px;">Connect to Wifi network <b>PACBIKE</b></p>
-            </div>
-            <div style="margin-left:50px;width:450px;display:inline-block;">
-                <div style="display:inline-block;width:270px;vertical-align:top;">
-                    <span class="label label-success">Step 2</span>
-                    <br><p style="margin-top:15px;">Read what the PacBike project is about:</p>
-                </div>
-                <div style="display:inline-block;width:105px;">
-                    <img style="vertical-align:bottom;" src="images/qrcode-project.png" height="100px"/>
-                </div>
-            </div>
-            <div style="margin-left:50px;width:450px;display:inline-block;">
-                <div style="display:inline-block;width:270px;vertical-align:top;">
-                    <span class="label label-success">Step 3</span>
-                    <br><p style="margin-top:15px;">Control PacMan:</p>
-                </div>
-                <div style="display:inline-block;width:105px;">
-                    <img style="vertical-align:bottom;" src="images/qrcode-gamepad.png" height="100px"/>
-                </div>
-            </div>
+        <div id="otherstuff2" style="margin-bottom:5px;margin-top:5px;font-size:40px;">
+            Score:<div id="currentScore" style="display:inline-block;">0</div>
+            (hi:<div id="highScore" style="display:inline-block;">0</div>)
         </div>
 
         <script language="JavaScript" type="text/javascript" src="gamepad/assets/js/jquery-min.js"></script>
@@ -167,7 +144,7 @@
 
             var REFRESH_RATE = 30;
             // Number of minutes a refresh is representing (timer increment)
-            var SIMULATED_TIME_RATE = 0.5;
+            var SIMULATED_TIME_RATE = 0.25;
             // Initial timer value
             var timer = 0;
 
@@ -840,6 +817,8 @@
                                 {
                                     // Re-spawn fruit
                                     spawnFruit();
+                                    // Bonus last fruit!
+                                    player[0].player.addPoints(1000);
                                 }
                             });
                         }
