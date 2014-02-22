@@ -4,10 +4,10 @@
     <mapcanvas>
         <units>meters</units>
         <extent>
-            <xmin>2496531.2954756012186408</xmin>
-            <ymin>2409207.37141864653676748</ymin>
-            <xmax>2497976.37578227184712887</xmax>
-            <ymax>2410056.91217490192502737</ymax>
+            <xmin>2496176.63280484359711409</xmin>
+            <ymin>2409114.9363207221031189</ymin>
+            <xmax>2497317.41901096608489752</xmax>
+            <ymax>2409785.5871986011043191</ymax>
         </extent>
         <projections>1</projections>
         <destinationsrs>
@@ -23,7 +23,7 @@
             </spatialrefsys>
         </destinationsrs>
     </mapcanvas>
-    <legend updateDrawingOrder="true" activeLayer="est_route_spatial20140113164130494">
+    <legend updateDrawingOrder="true" activeLayer="station20140113115412222">
         <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="CBD_CLEAN_WITHOUT_ARTERIES_DISS_3111_BUFF" showFeatureCount="0">
             <filegroup open="true" hidden="false">
                 <legendlayerfile isInOverview="0" layerid="CBD_CLEAN_WITHOUT_ARTERIES_DISS_3111_BUFF20140215223311060" visible="1"/>
@@ -34,14 +34,14 @@
                 <legendlayerfile isInOverview="0" layerid="CBD_CLEAN_WITHOUT_ARTERIES_DISS_311120140215222706322" visible="1"/>
             </filegroup>
         </legendlayer>
-        <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="station" showFeatureCount="0">
+        <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="station" showFeatureCount="0">
             <filegroup open="true" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="station20140113115412222" visible="0"/>
+                <legendlayerfile isInOverview="0" layerid="station20140113115412222" visible="1"/>
             </filegroup>
         </legendlayer>
-        <legendlayer drawingOrder="-1" open="false" checked="Qt::Checked" name="CBD_ROUTE_CELLS_FINAL_4326" showFeatureCount="0">
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="CBD_ROUTE_CELLS_FINAL_4326" showFeatureCount="0">
             <filegroup open="false" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="CBD_ROUTE_CELLS_FINAL_432620140115131322531" visible="1"/>
+                <legendlayerfile isInOverview="0" layerid="CBD_ROUTE_CELLS_FINAL_432620140115131322531" visible="0"/>
             </filegroup>
         </legendlayer>
         <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="CBD_GRID_POLY_MULTI_3111_ROTATE_SINGLE" showFeatureCount="0">
@@ -104,9 +104,9 @@
                 <legendlayerfile isInOverview="0" layerid="CBD_CLEAN_BUFFERED00001520140113165840049" visible="0"/>
             </filegroup>
         </legendlayer>
-        <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="est_route_spatial" showFeatureCount="0">
+        <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="est_route_spatial" showFeatureCount="0">
             <filegroup open="true" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="est_route_spatial20140113164130494" visible="0"/>
+                <legendlayerfile isInOverview="0" layerid="est_route_spatial20140113164130494" visible="1"/>
             </filegroup>
         </legendlayer>
         <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="CadLayer Polygons" showFeatureCount="0">
@@ -3323,7 +3323,7 @@
         </maplayer>
         <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Line" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>est_route_spatial20140113164130494</id>
-            <datasource>dbname='pacbike' host=localhost port=5432 user='bze' password='bze' sslmode=disable key='id' srid=4326 type=LINESTRING table="public"."est_route_spatial" (the_geom) sql="id" = 31894</datasource>
+            <datasource>dbname='pacbike' host=localhost port=5432 user='bze' password='bze' sslmode=disable key='id' srid=4326 type=LINESTRING table="public"."est_route_spatial" (the_geom) sql="id"=27950</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -3389,10 +3389,10 @@
                 <property key="labeling/distInMapUnits" value="false"/>
                 <property key="labeling/enabled" value="false"/>
                 <property key="labeling/fieldName" value=""/>
-                <property key="labeling/fontBold" value="false"/>
+                <property key="labeling/fontBold" value="true"/>
                 <property key="labeling/fontCapitals" value="0"/>
                 <property key="labeling/fontFamily" value="Ubuntu"/>
-                <property key="labeling/fontItalic" value="false"/>
+                <property key="labeling/fontItalic" value="true"/>
                 <property key="labeling/fontLetterSpacing" value="0"/>
                 <property key="labeling/fontLimitPixelSize" value="false"/>
                 <property key="labeling/fontMaxPixelSize" value="10000"/>
@@ -3401,7 +3401,7 @@
                 <property key="labeling/fontSizeInMapUnits" value="false"/>
                 <property key="labeling/fontStrikeout" value="false"/>
                 <property key="labeling/fontUnderline" value="false"/>
-                <property key="labeling/fontWeight" value="50"/>
+                <property key="labeling/fontWeight" value="75"/>
                 <property key="labeling/fontWordSpacing" value="0"/>
                 <property key="labeling/formatNumbers" value="false"/>
                 <property key="labeling/isExpression" value="false"/>
@@ -3526,7 +3526,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Point" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>station20140113115412222</id>
-            <datasource>dbname='pacbike' host=localhost port=5432 user='bze' password='bze' sslmode=disable key='id' srid=4326 type=POINT table="public"."station" (the_geom) sql=</datasource>
+            <datasource>dbname='pacbike' host=localhost port=5432 user='bze' password='bze' sslmode=disable key='id' srid=4326 type=POINT table="public"."station" (the_geom) sql="id"=10  OR  "id"=34</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -3750,8 +3750,8 @@
             <Automatic type="bool">true</Automatic>
             <DegreeFormat type="QString">D</DegreeFormat>
         </PositionPrecision>
-        <WMSServiceCapabilities type="bool">false</WMSServiceCapabilities>
         <WMSContactPhone type="QString"></WMSContactPhone>
+        <WMSServiceCapabilities type="bool">false</WMSServiceCapabilities>
         <WMSServiceAbstract type="QString"></WMSServiceAbstract>
         <WMSAddWktGeometry type="bool">false</WMSAddWktGeometry>
         <Measure>
